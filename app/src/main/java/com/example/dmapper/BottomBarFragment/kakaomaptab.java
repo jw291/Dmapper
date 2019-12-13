@@ -25,8 +25,9 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-public class kakaomaptab extends Fragment {
 
+public class kakaomaptab extends Fragment {
+/*
     private static final String LOG_TAG = "MainActivity";
 
     private MapView mMapView;
@@ -35,7 +36,7 @@ public class kakaomaptab extends Fragment {
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
-
+*/
     public kakaomaptab() {
         // Required empty public constructor
     }
@@ -44,11 +45,15 @@ public class kakaomaptab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_kakaomaptab, container, false);
         // Inflate the layout for this fragment
-        mMapView = (MapView) getView().findViewById(R.id.kakao_map_view);
-        //mMapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
         /*
-        mMapView.setCurrentLocationEventListener(this);
+        mMapView = (MapView) view.findViewById(R.id.kakao_map_view);
+
+        //mMapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
+
+        mMapView.setCurrentLocationEventListener((MapView.CurrentLocationEventListener) getActivity());
 
         if (!checkLocationServicesStatus()) {
 
@@ -58,7 +63,7 @@ public class kakaomaptab extends Fragment {
             checkRunTimePermission();
         }
 */
-        return inflater.inflate(R.layout.fragment_kakaomaptab, container, false);
+        return view;
     }
 /*
     @Override
@@ -69,39 +74,39 @@ public class kakaomaptab extends Fragment {
         Log.i("destroy kakao","kakao destroy");
     }
 
-    @Override
+
     public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
         mapReverseGeoCoder.toString();
         onFinishReverseGeoCoding(s);
     }
 
-    @Override
+
     public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
         onFinishReverseGeoCoding("Fail");
     }
 
-    @Override
+
     public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float accuracyInMeters) {
         MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
         Log.i(LOG_TAG, String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
     }
 
-    @Override
+
     public void onCurrentLocationDeviceHeadingUpdate(MapView mapView, float v) {
 
     }
 
-    @Override
+
     public void onCurrentLocationUpdateFailed(MapView mapView) {
 
     }
 
-    @Override
+
     public void onCurrentLocationUpdateCancelled(MapView mapView) {
 
     }
     private void onFinishReverseGeoCoding(String result) {
-//        Toast.makeText(LocationDemoActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(LocationDemoActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -241,6 +246,6 @@ public class kakaomaptab extends Fragment {
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-*/
+    }*/
+
 }
