@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android = "http://schemas.android.com/apk/res/android">
+    <tabs>
+        <tab
+            id="@+id/tab_kakaomap"
+            icon="@drawable/ic_map_black_24dp"
+            title = "kakao"
+            barColorWhenSelected="#FFC107"/>
+        <tab
+            id="@+id/tab_googlemap"
+            icon="@drawable/ic_map_black_24dp"
+            title = "google"
+            barColorWhenSelected="#FF4B13"/>
+        <tab
+            id="@+id/tab_LookupData"
+            icon="@drawable/ic_menu_white_24dp"
+            title = "조회"
+            barColorWhenSelected="#673AB7"/>
+        <tab
+            id="@+id/tab_Setting"
+            icon="@drawable/ic_settings_white_24dp"
+            title="설정"
+            barColorWhenSelected="#2196F3" />
+    </tabs>
+</PreferenceScreen>
