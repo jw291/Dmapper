@@ -38,6 +38,7 @@
             app:scale_textsize="17"/>
 
         <Button
+            android:id="@+id/fake_google_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FF0000"
@@ -48,6 +49,17 @@
             app:scale_textsize="17"
             app:scale_top="100"
             app:scale_width="250" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/Google_Login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_height="50"
+            app:scale_left="75"
+            app:scale_textsize="17"
+            app:scale_top="100"
+            app:scale_width="250"/>
+
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
 </FrameLayout>

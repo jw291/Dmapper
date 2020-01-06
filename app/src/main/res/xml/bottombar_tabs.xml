@@ -2,15 +2,10 @@
 <PreferenceScreen xmlns:android = "http://schemas.android.com/apk/res/android">
     <tabs>
         <tab
-            id="@+id/tab_kakaomap"
+            id="@+id/tab_registermap"
             icon="@drawable/ic_map_black_24dp"
-            title = "kakao"
+            title = "등록"
             barColorWhenSelected="#FFC107"/>
-        <tab
-            id="@+id/tab_googlemap"
-            icon="@drawable/ic_map_black_24dp"
-            title = "google"
-            barColorWhenSelected="#FF4B13"/>
         <tab
             id="@+id/tab_LookupData"
             icon="@drawable/ic_menu_white_24dp"

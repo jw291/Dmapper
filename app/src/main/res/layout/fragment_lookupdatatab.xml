@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.constraint.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,40 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".BottomBarFragment.lookupdatatab">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/place_recy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:id="@+id/recy">
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints">
+    </android.support.v7.widget.RecyclerView>
 
-        </android.support.v7.widget.RecyclerView>
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:layout_marginBottom="70dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/floatingmenu"
-            android:clickable="true"
-            android:contextClickable="true"
-            android:layout_gravity="right|bottom"
-            app:menu_colorNormal="@color/colorAccent"
-            app:menu_showShadow="true"
-            app:menu_openDirection="up"
-            app:menu_backgroundColor="@android:color/transparent">
-
-            <com.github.clans.fab.FloatingActionButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/floatingbutton"
-                android:clickable="true"
-                app:fab_size="mini"
-                app:fab_colorNormal="@color/colorPrimary"
-                app:fab_colorRipple="@color/colorPrimaryDark"
-                android:src="@drawable/ic_person_add_black_24dp"/>
-        </com.github.clans.fab.FloatingActionMenu>
-    </android.support.design.widget.CoordinatorLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

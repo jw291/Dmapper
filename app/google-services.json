@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "750976592337",
+    "firebase_url": "https://dulcet-elevator-262212.firebaseio.com",
+    "project_id": "dulcet-elevator-262212",
+    "storage_bucket": "dulcet-elevator-262212.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750976592337:android:91779f7c5971886dfcd8f0",
+        "android_client_info": {
+          "package_name": "com.example.dmapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750976592337-oj6lq9ql41ggahhah7s7gbtovtbgamp6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYtiqNLvHEdjXlK5LU-iZOvOOMaRy9Aww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750976592337-oj6lq9ql41ggahhah7s7gbtovtbgamp6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

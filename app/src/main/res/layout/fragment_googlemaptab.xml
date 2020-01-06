@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BottomBarFragment.googlemaptab">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/google_map_view"
+        android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <fragment
+            android:id="@+id/place_autocomplete_fragment"
+            android:name="com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/Linearlayout"
+        android:layout_below="@+id/place_autocomplete_fragment"
+        android:layout_alignParentRight="true"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="#A8FFFFFF"
+        android:divider="@drawable/horizontal_divider"
+        android:showDividers="middle"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/googlebutton"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#57333333"
+            android:text="G"
+            android:textSize="20dp"
+            android:textColor="#FF0707"/>
+        <Button
+            android:id="@+id/kakaobutton"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="K"
+            android:textSize="20dp"
+            android:textColor="#FFC107" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_below="@+id/Linearlayout"
+        android:layout_alignParentRight="true"
+        android:id="@+id/mylocationbutton"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_gps_fixed_black_24dp"
+        />
+    </RelativeLayout>
 </FrameLayout>
