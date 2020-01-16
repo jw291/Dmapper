@@ -55,7 +55,7 @@
                         android:descendantFocusability="beforeDescendants"
                         android:focusableInTouchMode="true">
 
-                        
+
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/placename_et"
                             android:layout_width="match_parent"
@@ -69,22 +69,25 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/textinputlayout2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="364dp"
-                        android:descendantFocusability="beforeDescendants"
-                        android:focusableInTouchMode="true">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/addressname_et"
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textinputlayout2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="주소"
-                            android:inputType="text" />
-                    </android.support.design.widget.TextInputLayout>
+                            tools:ignore="MissingConstraints"
+                            tools:layout_editor_absoluteY="364dp"
+                            android:descendantFocusability="beforeDescendants"
+                            android:focusableInTouchMode="true">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/addressname_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="주소"
+                                android:inputType="text" />
+
+
+
+                        </android.support.design.widget.TextInputLayout>
                         <ImageView
                             android:id="@+id/reload_address_btn"
                             android:clickable="true"
@@ -301,7 +304,41 @@
                             android:text="제공 시설 정보"
                             android:textColor="#7A7A7A" />
                     </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/category_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="8"
+                            android:orientation="horizontal"
+                            android:background="@drawable/spinner_outline"
+                            tools:ignore="UselessParent">
+
+                            <Spinner
+                                android:id="@+id/category_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:overlapAnchor="false"
+                                android:spinnerMode="dropdown" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="9dp"
+                            android:layout_marginTop="-5dp"
+                            android:background="#ffffff"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:text="카테고리"
+                            android:textColor="#7A7A7A" />
+                    </RelativeLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -383,5 +420,5 @@
         android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3FA7FF"/>
+        android:background="#829FD9"/>
 </RelativeLayout>

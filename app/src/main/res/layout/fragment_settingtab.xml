@@ -34,13 +34,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recy_notice"
-                        android:layout_marginLeft="10dp"
+                    <ListView
+                        android:id="@+id/list_notice"
+                        android:layout_marginLeft="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="200dp">
 
-                    </android.support.v7.widget.RecyclerView>
+                    </ListView>
                 </RelativeLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/seemore_notice"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content">
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recy_myrequest"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="200dp">
                     </android.support.v7.widget.RecyclerView>
@@ -167,12 +167,14 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recy_ranking"
-                        android:layout_marginLeft="10dp"
+                    <ListView
+                        android:id="@+id/list_ranking"
+                        android:dividerHeight="0px"
+                        android:divider="#FFFFFF"
+                        android:layout_marginLeft="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="200dp">
-                    </android.support.v7.widget.RecyclerView>
+                    </ListView>
                 </RelativeLayout>
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/seemore_ranking"

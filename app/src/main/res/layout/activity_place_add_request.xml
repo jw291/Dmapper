@@ -415,13 +415,13 @@
                             android:src="@drawable/ic_add_circle_outline_black_24dp"
                             />
                     </LinearLayout>
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/image_viewpager"
-                        android:layout_gravity="center"
+                    <ImageView
+                        android:id="@+id/image_view"
                         android:layout_width="300dp"
-                        android:layout_height="200dp">
-                    </android.support.v4.view.ViewPager>
+                        android:layout_height="200dp"
+                        android:layout_gravity="center">
+                    </ImageView>
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
@@ -431,8 +431,8 @@
         android:layout_alignParentBottom="true"
         android:text="보내기"
         android:textSize="20dp"
-        android:textColor="#ffffff"
+        android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3FA7FF"/>
+        android:background="#829FD9"/>
 </RelativeLayout>

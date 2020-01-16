@@ -7,12 +7,81 @@
     android:layout_height="match_parent"
     tools:ignore="missingprefix"
     >
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="170dp"
+        android:src="@drawable/logo_color" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="로그인 시 "
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:textColor="#5168D8"
+            android:id="@+id/service_text"
+            android:text="서비스 이용약관"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text=" 및 "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:textColor="#5168D8"
+            android:id="@+id/service_private"
+            android:text="개인정보 처리방침,"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="위치 기반 서비스에 동의한 것으로 간주합니다."
+            />
+    </LinearLayout>
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:scale_base_width="400"
         app:scale_base_height="300">
+
+
+
         <Button
             android:id="@+id/fake_kakao_login_button"
             android:layout_width="wrap_content"
@@ -23,7 +92,9 @@
             app:scale_top="40"
             app:scale_width="250"
             app:scale_height="50"
-            app:scale_textsize="17"/>
+            app:scale_textsize="17"
+
+            />
 
         <com.kakao.usermgmt.LoginButton
             android:id="@+id/kakao_login_button"
@@ -61,5 +132,7 @@
             app:scale_width="250"/>
 
     </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
 
 </FrameLayout>

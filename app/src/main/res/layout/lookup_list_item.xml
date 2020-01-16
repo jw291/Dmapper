@@ -13,11 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground">
+
         <ImageView
             android:id="@+id/place_img"
-            android:src="@drawable/ic_launcher_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_pin_drop_black_24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,6 +28,7 @@
             android:layout_toRightOf="@+id/place_img"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
             android:gravity="left|center_vertical"
             android:orientation="vertical">
 
@@ -41,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="address name"
-                android:textSize="18dp" />
+                android:textSize="11dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +64,7 @@
                 android:id="@+id/location_detail_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="위치 보기"
+                android:text="상세 보기"
                 android:textSize="15dp" />
         </LinearLayout>
     </RelativeLayout>
