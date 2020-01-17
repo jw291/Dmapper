@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            keyPassword 'fi12xer34!'
-            storePassword 'fi12xer34!'
-            keyAlias = 'key0'
-            storeFile file('C:\\Users\\susu\\Downloads\\ff.jks')
+            keyPassword 'digh1221'
+            storePassword 'digh1221'
+            keyAlias = 'release_key'
+            storeFile file('/Users/jaewonna/release_key.keystore')
         }
     }
     compileSdkVersion 28
@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.android.libraries.places:places-compat:1.0.0'
+    implementation "com.romandanylyk:pageindicatorview:0.1.1"
     implementation files('libs/libDaumMapAndroid.jar')
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'

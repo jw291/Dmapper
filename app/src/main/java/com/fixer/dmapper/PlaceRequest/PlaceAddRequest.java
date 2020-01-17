@@ -49,6 +49,8 @@ import com.fixer.dmapper.ImageViewPager.ImageViewPagerAdapter;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -135,7 +137,7 @@ public class PlaceAddRequest extends AppCompatActivity{
     double latitude, longitude;
     String latitude_st, longitude_st;
 
-
+    boolean map_platform_check_status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +148,7 @@ public class PlaceAddRequest extends AppCompatActivity{
         init_variable();
         init_spinner_list();
         init_BindValue();
+
 
         image_upload_btn = findViewById(R.id.image_upload_button);
         image_View = (ImageView) findViewById(R.id.image_view);
@@ -161,6 +164,7 @@ public class PlaceAddRequest extends AppCompatActivity{
         super.onResume();
 
         getValue();
+
 
         etcinfo_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -191,19 +195,32 @@ public class PlaceAddRequest extends AppCompatActivity{
                 albumAction();
             }
         });
-
+        /*
+        if(place_name_st.trim().length() == 0 || address_name_st.trim().length() == 0 || category_name_st.trim().length() == 0 || google_bool == false || kakao_bool == false){
+            submit_btn.setBackgroundColor(Color.GRAY);
+            submit_btn.setEnabled(false);
+            Toast.makeText(this, "여기", Toast.LENGTH_SHORT).show();
+        }else{
+            submit_btn.setBackgroundColor(Color.rgb(130,159,217));
+            submit_btn.setEnabled(true);
+        }*/
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //이미지는 php로 디비로
-                BitMapToString(bm);
-                //추가 정보 소켓서버로
-                socketHandler = new Handler();
-                ConnectThread th = new ConnectThread();
-                th.start();
+                if(place_name_et.getText().toString().trim().length() > 0 && address_name_et.getText().toString().trim().length() > 0 && (google_map_check.isChecked() || kakao_map_check.isChecked())){
+                    Toast.makeText(PlaceAddRequest.this, "완료", Toast.LENGTH_SHORT).show();
+                    //이미지는 php로 디비로
+                    BitMapToString(bm);
+                    //추가 정보 소켓서버로
+                    socketHandler = new Handler();
+                    ConnectThread th = new ConnectThread();
+                    th.start();
 
-                finish(); //액티비티 닫음
+                    finish(); //액티비티 닫음
+                }else{
+                    Toast.makeText(PlaceAddRequest.this, "필수정보를 모두 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

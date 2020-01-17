@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
@@ -97,17 +98,22 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mHandler = new Handler();
-                //넘버 맞춰줄라고 걍 빈값 넣음
-                String IP_ADDRESS = "54.180.106.121";
-                String ii = " ";
-                PlaceAddRequest.InsertData task = new PlaceAddRequest.InsertData();
-                task.execute("http://" + IP_ADDRESS + "/add_img2.php", ii);
+                if(place_name_et.getText().toString().trim().length() > 0 && address_name_et.getText().toString().trim().length() > 0 && (google_map_check.isChecked() || kakao_map_check.isChecked())) {
+                    Toast.makeText(PlaceUpdateRequest.this, "완료", Toast.LENGTH_SHORT).show();
+                    mHandler = new Handler();
+                    //넘버 맞춰줄라고 걍 빈값 넣음
+                    String IP_ADDRESS = "54.180.106.121";
+                    String ii = " ";
+                    PlaceAddRequest.InsertData task = new PlaceAddRequest.InsertData();
+                    task.execute("http://" + IP_ADDRESS + "/add_img2.php", ii);
 
-                ConnectThread th = new ConnectThread();
-                th.start();
+                    ConnectThread th = new ConnectThread();
+                    th.start();
 
-                finish();
+                    finish();
+                }else{
+                    Toast.makeText(PlaceUpdateRequest.this, "필수정보를 모두 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -272,9 +278,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
 
         try {
-            list_a = geocoder.getFromLocationName(
-                    address_name_st, // 지역 이름
-                    10); // 읽을 개수
+            list_a = geocoder.getFromLocationName(address_name_st, 10); // 읽을 개수
         } catch (IOException e) {
             e.printStackTrace();
         }
