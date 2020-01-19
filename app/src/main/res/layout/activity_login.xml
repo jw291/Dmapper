@@ -131,8 +131,18 @@
             app:scale_top="100"
             app:scale_width="250"/>
 
-    </com.ssomai.android.scalablelayout.ScalableLayout>
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:scale_width="400"
+            app:scale_textsize="12"
+            app:scale_top="200"
+            android:textStyle="bold"
+            android:textColor="#829FD9"
+            android:text="카카오톡 회원가입 시 \n이메일 수집에 동의하셔야 이벤트 참여가 가능합니다" />
 
+    </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
 </FrameLayout>

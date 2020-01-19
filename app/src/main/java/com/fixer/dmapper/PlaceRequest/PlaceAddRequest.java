@@ -52,9 +52,6 @@ import com.fixer.dmapper.R;
 
 import org.w3c.dom.Text;
 
-
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -203,7 +200,6 @@ public class PlaceAddRequest extends AppCompatActivity{
 
 
          /*
-        /*
         if(place_name_st.trim().length() == 0 || address_name_st.trim().length() == 0 || category_name_st.trim().length() == 0 || google_bool == false || kakao_bool == false){
             submit_btn.setBackgroundColor(Color.GRAY);
             submit_btn.setEnabled(false);

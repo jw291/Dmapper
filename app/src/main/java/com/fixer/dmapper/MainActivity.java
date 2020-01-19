@@ -16,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 import com.fixer.dmapper.BottomBarFragment.RequestHttpURLConnection;
@@ -87,10 +88,14 @@ public class MainActivity extends AppCompatActivity {
         translate_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_up);
         translate_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_down);
 
-        Intent intent = getIntent();
+        M_user_id = getIntent().getStringExtra("myid");
         M_user_name = getIntent().getStringExtra("myname");
         M_user_email = getIntent().getStringExtra("myemail");
-        M_user_id = getIntent().getStringExtra("myid");
+
+        Toast.makeText(this, "id"+M_user_id+"name"+M_user_name+"email"+M_user_email, Toast.LENGTH_SHORT).show();
+        String temp = "&id="+M_user_id+"&name=" +M_user_name+"&email="+M_user_email;
+        InsertUser iu = new InsertUser(temp);
+        iu.start();
 
         //각 디비 불러오기 fragment필요한 디비들 다 main에서 부르는게 낫다 오류 오지게난다
         NetworkTask_rank networkTask_rank = new NetworkTask_rank("http://54.180.106.121/get_rank.php", null);

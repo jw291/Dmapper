@@ -79,7 +79,6 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null) {
                 parent.removeView(view);
-                Toast.makeText(getContext(), "parent.removeView", Toast.LENGTH_SHORT).show();
             }
         }
         try {

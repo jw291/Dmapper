@@ -86,7 +86,7 @@ class LookupDataAdapter extends RecyclerView.Adapter<LookUpDataViewHolder>{
         if(data.getImage()!=null){
             holder.place_img.setImageBitmap(data.getImage());
         }else{
-            holder.place_img.setImageResource(R.drawable.ic_pin_drop_black_24dp);
+            holder.place_img.setImageResource(R.drawable.defaultimage);
         }
         holder.place_name.setText(data.getPlace_name());
         holder.place_address.setText(data.getPlace_address());

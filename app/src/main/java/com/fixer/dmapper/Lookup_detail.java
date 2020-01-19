@@ -2,13 +2,16 @@ package com.fixer.dmapper;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +40,10 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
 
     //placename은 텍스트뷰에 set해주는게 아니고 init_variable()함수에서 mCollapsingToolbarLayout.setTitle("My App Title"); 여기에 넣어주면 됌
     TextView category_tv, phone_num_tv, etc_tv,address_name_tv, address2_name_tv,register_user_name_tv, register_datetime_tv , register_kakao_tv, register_google_tv;
-    ImageView place_iv, entrance_iv, elevator_iv, parking_iv, toilet_iv, seat_iv;
+    ImageView place_iv;
+    ImageView entrance_iv, elevator_iv, parking_iv, toilet_iv, seat_iv;
+
+    LinearLayout entrance_layout, elevator_layout, parking_layout, toilet_layout, seat_layout;
 
     String place_url;
     String place_name; //장소명
@@ -121,11 +127,18 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
         register_google_tv = (TextView)findViewById(R.id.detail_register_google);
         place_iv = (ImageView)findViewById(R.id.parallax_header_imageview);
 
+
+        entrance_layout = (LinearLayout)findViewById(R.id.entrance_layout);
+        elevator_layout = (LinearLayout)findViewById(R.id.elevator_layout);
+        parking_layout = (LinearLayout)findViewById(R.id.parking_layout);
+        toilet_layout = (LinearLayout)findViewById(R.id.toilet_layout);
+        seat_layout = (LinearLayout)findViewById(R.id.seat_layout);
+        /*
         entrance_iv = (ImageView)findViewById(R.id.entrance_iv);
         elevator_iv = (ImageView)findViewById(R.id.elevator_iv);
         parking_iv = (ImageView)findViewById(R.id.parking_iv);
         toilet_iv = (ImageView)findViewById(R.id.toilet_iv);
-        seat_iv = (ImageView)findViewById(R.id.seat_iv);
+        seat_iv = (ImageView)findViewById(R.id.seat_iv);*/
 
         mRootLayout = (CoordinatorLayout) findViewById(R.id.coordinatorRootLayout);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayoutAndroidExample);
@@ -173,7 +186,7 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
     public void DataContainer_Bind_View(){
         mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.bb_darkBackgroundColor));//타이틀컬러
         mCollapsingToolbarLayout.setTitle(place_name); //"장소명 대신 place_name 변수" 넣으면 돼
-
+        mCollapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
         place_iv.setImageBitmap(place_img);
         //Glide.with(this).load(place_url).thumbnail(0.1f).into(place_iv);
         //Glide.with(this).asBitmap().thumbnail(0.1f).into(place_iv);
@@ -188,20 +201,25 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
         register_datetime_tv.setText(register_datetime);
 
 
-        if(entrance == true){
-            entrance_iv.setImageResource(R.drawable.entrance);
+        if(entrance == false){
+            entrance_layout.setVisibility(View.GONE);
+            //entrance_iv.setImageResource(R.drawable.entrance);
         }
-        if(elevator == true){
-            elevator_iv.setImageResource(R.drawable.elevator);
+        if(elevator == false){
+            elevator_layout.setVisibility(View.GONE);
+            //elevator_iv.setImageResource(R.drawable.elevator);
         }
-        if(parking == true){
-            parking_iv.setImageResource(R.drawable.parking);
+        if(parking == false){
+            parking_layout.setVisibility(View.GONE);
+            //parking_iv.setImageResource(R.drawable.parking);
         }
-        if(toilet == true){
-            toilet_iv.setImageResource(R.drawable.toilet);
+        if(toilet == false){
+            toilet_layout.setVisibility(View.GONE);
+            //toilet_iv.setImageResource(R.drawable.toilet);
         }
-        if(seat == true){
-            seat_iv.setImageResource(R.drawable.seat);
+        if(seat == false){
+            seat_layout.setVisibility(View.GONE);
+            //seat_iv.setImageResource(R.drawable.seat);
         }
         if(kakao == true){
             register_kakao_tv.setText("카카오톡"); //텍스트로 해도되고 이쁜 이미지로 바꿔도돼

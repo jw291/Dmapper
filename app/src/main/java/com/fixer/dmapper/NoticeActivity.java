@@ -180,7 +180,7 @@ public class NoticeActivity extends AppCompatActivity {
                     "\n" +
                     "[이벤트 기간]\n" +
                     "<1차>\n" +
-                    "1월 16일~1월 22일\n" +
+                    "1월 2일~1월 22일\n" +
                     "<2차>\n" +
                     "1월 23일~ 1월 29일\n" +
                     "<3차>\n" +

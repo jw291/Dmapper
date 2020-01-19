@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.hide();
 
-        // 앱 최초 실행시에 튜톨리얼 액티비티로
+        // 앱 최초 실행시에 튜토리얼 액티비티로
         SharedPreferences pref = getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
         boolean checkFirst = pref.getBoolean("checkFirst", false);
         if(checkFirst==false){
@@ -129,9 +129,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 user_name = user.getDisplayName();
                 user_email = user.getEmail();
                 user_id = user.getUid();
-                String temp = "&id=" + user_id + "&name=" + user_name + "&email=" + user_email;
-                insertUser iu = new insertUser(temp);
-                iu.start();
             } else {
                 requestMe();
             }
@@ -280,9 +277,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 user_name = user.getDisplayName();
                                 user_email = user.getEmail();
                                 user_id = user.getUid();
-                                String temp = "&id="+user_id+"&name=" +user_name+"&email="+user_email;
-                                insertUser iu = new insertUser(temp);
-                                iu.start();
                             }
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             infoPutextra(intent,user_name,user_email,user_id);
@@ -347,11 +341,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.e("onSuccess",userProfile.toString());
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 user_name = userProfile.getNickname();
-                user_email = userProfile.getEmail();
                 user_id = String.valueOf(userProfile.getId());
-                String temp = "&id="+user_id+"&name=" +user_name+"&email="+user_email;
-                insertUser iu = new insertUser(temp);
-                iu.start();
+                user_email = null;
                 infoPutextra(intent,user_name,user_email,user_id);
             }
 
@@ -375,53 +366,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Session.getCurrentSession().removeCallback(callback);
     }
 
-
-    //첫 로그인시 DB넣기할라했는데 걍 중복키 걸리니까 구현안함
-     class insertUser extends Thread {
-
-        public boolean active = true;
-        Handler mHandler;
-        String url = null;
-
-        public insertUser(String user) {
-            mHandler = new Handler(Looper.getMainLooper());
-            String userdb = "?" + user;
-
-            url = "http://54.180.106.121/add_user.php" + userdb;
-            Log.e("add to user", url);
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            if (active) {
-                StringBuilder jsonHtml = new StringBuilder();
-                try {
-                    URL phpUrl = new URL(url);
-                    HttpURLConnection conn = (HttpURLConnection) phpUrl.openConnection();
-                    if (conn != null) {
-                        conn.setConnectTimeout(10000);
-                        conn.setUseCaches(false);
-                        //conn.setRequestProperty("Content-Length", Integer.toString(url.length()));
-
-                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-                            while (true) {
-                                String line = br.readLine();
-                                if (line == null)
-                                    break;
-                                jsonHtml.append(line + "\n");
-                            }
-                            br.close();
-                        }
-                        conn.disconnect();
-                    }
-                    Log.e("insertUser", "success" + jsonHtml.toString() + "end");
-                } catch (Exception e) {
-                    Log.e("insertUser", "fail" + e.toString());
-                }
-
-            }
-        }
-    }
 }

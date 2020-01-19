@@ -20,7 +20,7 @@
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_pin_drop_black_24dp" />
+            android:src="@drawable/defaultimage" />
 
         <LinearLayout
             android:layout_width="match_parent"

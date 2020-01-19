@@ -39,9 +39,6 @@ public class TutorialActivity extends AppCompatActivity {
         pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
         skipbutton = (Button)findViewById(R.id.skipbutton);
 
-        pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
-        skipbutton = (Button)findViewById(R.id.skipbutton);
-
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.hide();
         ViewPager pager = findViewById(R.id.pager);
@@ -113,20 +110,6 @@ public class TutorialActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TutorialActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        skipbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
