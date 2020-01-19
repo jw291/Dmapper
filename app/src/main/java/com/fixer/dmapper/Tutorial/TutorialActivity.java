@@ -12,7 +12,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
+import com.fixer.dmapper.MainActivity;
+import com.rd.PageIndicatorView;
 import com.fixer.dmapper.LoginActivity;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
@@ -33,6 +34,11 @@ public class TutorialActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+
+
+        pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
+        skipbutton = (Button)findViewById(R.id.skipbutton);
+
         pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
         skipbutton = (Button)findViewById(R.id.skipbutton);
 
@@ -60,6 +66,23 @@ public class TutorialActivity extends AppCompatActivity {
         page5 fragment5 = new page5();
         adapter.addItem(fragment5);
 
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                pageIndicatorView.setSelection(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -80,6 +103,19 @@ public class TutorialActivity extends AppCompatActivity {
         pager.setAdapter(adapter);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        skipbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TutorialActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

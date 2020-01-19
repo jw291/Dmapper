@@ -6,8 +6,4 @@
     <string name="title_activity_kakaomaptab">kakaomaptab</string>
     <string name="title_activity_registertab">registertab</string>
 
-    <string name="next">다음</string>
-    <string name="skip">건너띄기</string>
-    <string name="start">시작</string>
-
 </resources>

@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
+
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
@@ -41,7 +43,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     //위도 경도 땜시
     final Geocoder geocoder = new Geocoder(this);
-    List<Address> list_a = null;
+    List<Address> list_a;
 
 
     //소켓 관련 변수
@@ -64,6 +66,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
 
     String user_id;
+    String user_name;
 
     InputMethodManager imm;
 
@@ -92,7 +95,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        getValue();
+        //getValue();
         onClickBox();
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +139,10 @@ public class PlaceUpdateRequest extends AppCompatActivity {
                 //데이터 전송
                 PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
                 out.println(sndMsg);
+
+                LookupDataProducts a = new LookupDataProducts(place_name_st,address_name_st, null, user_name, null, null,latitude,longitude,category_name_st,phonenumber_st,etcinfo_st,entrance_bool,elevator_bool,parking_bool,restroom_bool,seat_bool,kakao_bool,google_bool);
+                MainActivity.arrayLoc.add(a);
+                MainActivity.arrayMyloc.add(a);
 
                 socket.close();
             } catch (Exception e) {
@@ -191,6 +198,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         elevator_check = (CheckBox)findViewById(R.id.wheel_elevator_check);
 
         user_id = MainActivity.M_user_id;
+        user_name = MainActivity.M_user_name;
 
         textInputLayout4.setCounterEnabled(true);
         textInputLayout4.setCounterMaxLength(50);
@@ -276,13 +284,17 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-
         try {
+            list_a = geocoder.getFromLocationName(
+                    address_name_st, // 지역 이름
+                    10); // 읽을 개수
+                    Log.d("list_a",list_a.toString());
+
             list_a = geocoder.getFromLocationName(address_name_st, 10); // 읽을 개수
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (list_a != null) {
+        if (list_a!= null) {
             // 해당되는 주소로 인텐트 날리기
             Address addr = list_a.get(0);
             latitude = addr.getLatitude();
