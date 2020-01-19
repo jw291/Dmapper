@@ -15,12 +15,14 @@ import android.widget.Button;
 import com.fixer.dmapper.MainActivity;
 import com.rd.PageIndicatorView;
 import com.fixer.dmapper.LoginActivity;
+import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 import com.fixer.dmapper.Tutorial.page1;
 import com.fixer.dmapper.Tutorial.page2;
 import com.fixer.dmapper.Tutorial.page3;
 import com.fixer.dmapper.Tutorial.page4;
 import com.fixer.dmapper.Tutorial.page5;
+import com.rd.PageIndicatorView;
 
 import java.util.ArrayList;
 
@@ -28,16 +30,17 @@ public class TutorialActivity extends AppCompatActivity {
 
     Button skipbutton;
     PageIndicatorView pageIndicatorView;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
+
         pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
         skipbutton = (Button)findViewById(R.id.skipbutton);
 
+        pageIndicatorView = (PageIndicatorView)findViewById(R.id.tutorial_activity_page_indicator_view);
+        skipbutton = (Button)findViewById(R.id.skipbutton);
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.hide();
@@ -81,6 +84,22 @@ public class TutorialActivity extends AppCompatActivity {
         });
 
 
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                pageIndicatorView.setSelection(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         pager.setAdapter(adapter);
 
 
@@ -99,6 +118,19 @@ public class TutorialActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        skipbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     //어댑터 안에서 각각의 아이템을 데이터로서 관리한다
     class TPagerAdapter extends FragmentStatePagerAdapter {

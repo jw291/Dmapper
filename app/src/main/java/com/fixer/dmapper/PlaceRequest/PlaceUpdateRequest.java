@@ -24,7 +24,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
+
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
@@ -282,12 +284,13 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-
         try {
             list_a = geocoder.getFromLocationName(
                     address_name_st, // 지역 이름
                     10); // 읽을 개수
                     Log.d("list_a",list_a.toString());
+
+            list_a = geocoder.getFromLocationName(address_name_st, 10); // 읽을 개수
         } catch (IOException e) {
             e.printStackTrace();
         }

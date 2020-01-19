@@ -163,8 +163,6 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         }
         autocompleteFragment.setHint("장소를 입력하세요");
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-
-
             @Override
             public void onPlaceSelected(Place place) {
                 SEOUL = place.getLatLng();
