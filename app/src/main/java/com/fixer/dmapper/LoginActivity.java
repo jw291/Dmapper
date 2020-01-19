@@ -2,6 +2,7 @@ package com.fixer.dmapper;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -113,6 +114,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String[] reqPermissionArray = new String[permissions.size()];
             reqPermissionArray = permissions.toArray(reqPermissionArray);
             ActivityCompat.requestPermissions(this, reqPermissionArray, MY_PERMISSIONS_REQUEST_MULTI);
+        }
+
+        if(Session.getCurrentSession().isOpened()) {
+            ProgressDialog asyncDialog = new ProgressDialog(this);
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("로그인 중 입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                // Name, email address, and profile photo Url
+                user_name = user.getDisplayName();
+                user_email = user.getEmail();
+                user_id = user.getUid();
+                String temp = "&id=" + user_id + "&name=" + user_name + "&email=" + user_email;
+                insertUser iu = new insertUser(temp);
+                iu.start();
+            } else {
+                requestMe();
+            }
         }
 
         //공지 밑줄 효과

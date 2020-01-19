@@ -60,13 +60,14 @@ public class MainActivity extends AppCompatActivity {
     private Button placeupdatebtn;
 
     //로그인 되어있는 현재 회원정보
-    String M_user_name;
+    public static String M_user_name;
     String M_user_email;
     public static String M_user_id;
 
     public static ArrayList<rank> arrayRank;
     public static ArrayList<LookupDataProducts> arrayMyloc;
     public static ArrayList<LookupDataProducts> arrayLoc;
+
 
 
     @Override
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         NetworkTask_myloc NetworkTask_myloc = new NetworkTask_myloc("http://54.180.106.121/get_loc_user.php?&user_id=" + M_user_id, null);
         NetworkTask_myloc.execute();
+
 
         NetworkTask NetworTask = new NetworkTask("http://54.180.106.121/get_loc_db2.php", null);
         NetworTask.execute();
@@ -401,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //전체 조회
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    class NetworkTask extends AsyncTask<Void, Void, String> {
 
         private String url;
         private ContentValues values;

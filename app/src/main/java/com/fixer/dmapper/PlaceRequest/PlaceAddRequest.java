@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 import com.fixer.dmapper.BottomBarFragment.RequestHttpURLConnection;
 import com.fixer.dmapper.BottomBarFragment.googlemaptab;
 import com.fixer.dmapper.BottomBarFragment.kakaomaptab;
@@ -48,7 +49,7 @@ import com.fixer.dmapper.ImageViewPager.ImageViewPager;
 import com.fixer.dmapper.ImageViewPager.ImageViewPagerAdapter;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
-
+import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -130,12 +131,13 @@ public class PlaceAddRequest extends AppCompatActivity{
     Boolean kakao_bool,google_bool,entrance_bool,seat_bool,parking_bool,restroom_bool,elevator_bool;
 
     String user_id;
+    String user_name;
     String place_type = "1"; //추가는 1
 
     double latitude, longitude;
     String latitude_st, longitude_st;
 
-
+    boolean map_platform_check_status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,18 +194,33 @@ public class PlaceAddRequest extends AppCompatActivity{
             }
         });
 
+         /*
+        if(place_name_st.trim().length() == 0 || address_name_st.trim().length() == 0 || category_name_st.trim().length() == 0 || google_bool == false || kakao_bool == false){
+            submit_btn.setBackgroundColor(Color.GRAY);
+            submit_btn.setEnabled(false);
+            Toast.makeText(this, "여기", Toast.LENGTH_SHORT).show();
+        }else{
+            submit_btn.setBackgroundColor(Color.rgb(130,159,217));
+            submit_btn.setEnabled(true);
+        }*/
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //이미지는 php로 디비로
-                BitMapToString(bm);
-                //추가 정보 소켓서버로
-                socketHandler = new Handler();
-                ConnectThread th = new ConnectThread();
-                th.start();
+                if(place_name_et.getText().toString().trim().length() > 0 && address_name_et.getText().toString().trim().length() > 0 && (google_map_check.isChecked() || kakao_map_check.isChecked())){
+                    Toast.makeText(PlaceAddRequest.this, "완료", Toast.LENGTH_SHORT).show();
+                    //이미지는 php로 디비로
+                    BitMapToString(bm);
+                    //추가 정보 소켓서버로
+                    socketHandler = new Handler();
+                    ConnectThread th = new ConnectThread();
+                    th.start();
 
-                finish(); //액티비티 닫음
+                    finish(); //액티비티 닫음
+                }else{
+                    Toast.makeText(PlaceAddRequest.this, "필수정보를 모두 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -228,6 +245,10 @@ public class PlaceAddRequest extends AppCompatActivity{
                 //데이터 전송
                 PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
                 out.println(sndMsg);
+
+                LookupDataProducts a = new LookupDataProducts(place_name_st,address_name_st,bm, user_name, null, null,latitude,longitude,category_name_st,phonenumber_st,etcinfo_st,entrance_bool,elevator_bool,parking_bool,restroom_bool,seat_bool,kakao_bool,google_bool);
+                MainActivity.arrayLoc.add(a);
+                MainActivity.arrayMyloc.add(a);
 
                 socket.close();
             } catch (Exception e) {
@@ -289,6 +310,7 @@ public class PlaceAddRequest extends AppCompatActivity{
         elevator_check = (CheckBox)findViewById(R.id.wheel_elevator_check);
 
         user_id = MainActivity.M_user_id;
+        user_name = MainActivity.M_user_name;
 
         textInputLayout4.setCounterEnabled(true);
         textInputLayout4.setCounterMaxLength(50);

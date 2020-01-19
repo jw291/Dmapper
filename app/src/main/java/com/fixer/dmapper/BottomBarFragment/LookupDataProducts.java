@@ -26,7 +26,28 @@ public class LookupDataProducts {
        this.place_address = place_address;
    }
 
-   public String getUser_name() {
+    public LookupDataProducts(String place_name, String place_address, Bitmap place_image, String user_name, String upload_date, String platform, double latitude, double longitude, String category, String phone, String ect_info, boolean entrance, boolean elevator, boolean parking, boolean toilet, boolean seat, boolean kakao, boolean google) {
+        this.place_name = place_name;
+        this.place_address = place_address;
+        this.place_image = place_image;
+        this.user_name = user_name;
+        this.upload_date = upload_date;
+        this.platform = platform;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.category = category;
+        this.phone = phone;
+        this.ect_info = ect_info;
+        this.entrance = entrance;
+        this.elevator = elevator;
+        this.parking = parking;
+        this.toilet = toilet;
+        this.seat = seat;
+        this.kakao = kakao;
+        this.google = google;
+    }
+
+    public String getUser_name() {
        return user_name;
    }
 
