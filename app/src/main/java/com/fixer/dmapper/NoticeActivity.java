@@ -187,4 +187,10 @@ public class NoticeActivity extends AppCompatActivity {
                     "1월 30일~ 2월 5일");
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

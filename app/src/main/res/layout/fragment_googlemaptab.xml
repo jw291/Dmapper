@@ -28,28 +28,17 @@
         android:layout_alignParentRight="true"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:background="#A8FFFFFF"
-        android:divider="@drawable/horizontal_divider"
         android:showDividers="middle"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/googlebutton"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#57333333"
-            android:text="G"
-            android:textSize="20dp"
-            android:textColor="#FF0707"/>
         <Button
             android:id="@+id/kakaobutton"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:text="K"
-            android:textSize="20dp"
-            android:textColor="#FFC107" />
+            android:layout_height="30dp"
+            android:text="카카오 지도로 보기"
+            android:textSize="13dp"
+            android:textColor="#FCC00C"
+            android:background="@drawable/buttonshape2"/>
     </LinearLayout>
 
     <ImageView

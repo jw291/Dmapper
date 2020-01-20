@@ -44,7 +44,6 @@ public class settingtab extends Fragment {
     LookupDataAdapter lookupDataAdapter;
     private ArrayList<notice> notice_list;
 
-    ConstraintLayout notice_seemorebtn;
     ConstraintLayout myrequest_seemorebtn;
     ConstraintLayout ranking_seemorebtn;
 
@@ -52,11 +51,9 @@ public class settingtab extends Fragment {
     TextView myrequest_tv;
     TextView ranking_tv;
 
-    ImageView notice_iv;
     ImageView myrequest_iv;
     ImageView ranking_iv;
 
-    Boolean notice_Click_state = false;
     Boolean myrequest_Click_state = false;
     Boolean ranking_Click_state = false;
     View view;
@@ -84,24 +81,6 @@ public class settingtab extends Fragment {
 
         onListItemButtonClick();
 
-        notice_seemorebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (notice_Click_state == false) {
-                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 1500);
-                    list_notice.setLayoutParams(lp);
-                    notice_tv.setText("접기");
-                    notice_iv.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
-                    notice_Click_state = true;
-                } else {
-                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 500);
-                    list_notice.setLayoutParams(lp);
-                    notice_tv.setText("더 보기");
-                    notice_iv.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    notice_Click_state = false;
-                }
-            }
-        });
 
         myrequest_seemorebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +124,7 @@ public class settingtab extends Fragment {
 
     public void init_variable() {
 
+
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.show();
         actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>" + "설정" + "</font>"));
@@ -152,7 +132,6 @@ public class settingtab extends Fragment {
 
         ((MainActivity) getActivity()).StartAnimationgone();
         //actionBar.setDisplayHomeAsUpEnabled(true);
-        notice_seemorebtn = (ConstraintLayout) view.findViewById(R.id.seemore_notice);
         myrequest_seemorebtn = (ConstraintLayout) view.findViewById(R.id.seemore_myrequest);
         ranking_seemorebtn = (ConstraintLayout) view.findViewById(R.id.seemore_ranking);
 
@@ -160,7 +139,6 @@ public class settingtab extends Fragment {
         myrequest_tv = (TextView) view.findViewById(R.id.myrequest_tv);
         ranking_tv = (TextView) view.findViewById(R.id.ranking_tv);
 
-        notice_iv = (ImageView) view.findViewById(R.id.notice_imageView);
         myrequest_iv = (ImageView) view.findViewById(R.id.myrequest_imageView);
         ranking_iv = (ImageView) view.findViewById(R.id.ranking_imageView);
 

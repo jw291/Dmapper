@@ -262,40 +262,32 @@ public class lookupdatatab extends Fragment {
         switch(item.getItemId())
         {
             case R.id.category1:
-                lookupDataAdapter.filter("");
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
+                lookupDataAdapter.filter(""); // 전체보기
                 break;
             case R.id.category2:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), ""+item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category3:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category4:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category5:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category6:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category7:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category8:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category9:
-                lookupDataAdapter.filter("병원");
-                Toast.makeText(getActivity(), ""+item.getTitle(), Toast.LENGTH_SHORT).show();
+                lookupDataAdapter.filter(item.getTitle().toString());
                 break;
         }
 

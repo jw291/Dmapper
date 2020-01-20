@@ -1,27 +1,27 @@
 package com.fixer.dmapper.PlaceRequest;
 
-import android.content.ClipData;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +30,6 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -41,12 +40,14 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 import com.fixer.dmapper.BottomBarFragment.RequestHttpURLConnection;
 import com.fixer.dmapper.BottomBarFragment.googlemaptab;
 import com.fixer.dmapper.BottomBarFragment.kakaomaptab;
-import com.fixer.dmapper.ImageViewPager.ImageViewPager;
-import com.fixer.dmapper.ImageViewPager.ImageViewPagerAdapter;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
@@ -269,7 +270,7 @@ public class PlaceAddRequest extends AppCompatActivity{
 
     public void init_spinner_list(){
         arrayList = new ArrayList<>();
-        arrayList.add("장애인용 화장실");
+        arrayList.add("장애인용 공용 화장실");
         arrayList.add("숙박업소");
         arrayList.add("보건소");
         arrayList.add("음식점");
@@ -411,8 +412,23 @@ public class PlaceAddRequest extends AppCompatActivity{
             if (resultCode == RESULT_OK) {
                 try {
                     bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    bm = resize(bm);
-                    image_View.setImageBitmap(bm);
+                    System.out.println();
+                    //bm = resize(bm);
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(bm)
+                            .override(300,200)
+                            .centerCrop()
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    image_View.setImageBitmap(resource);
+                                    bm = resource;
+                                }
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+                                }
+                            });
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -422,9 +438,11 @@ public class PlaceAddRequest extends AppCompatActivity{
             }
         }
     }
+    /*
     //Bitmap 줄이기 그래야 넘어감
     private Bitmap resize(Bitmap bm){
         Configuration config=getResources().getConfiguration();
+        Toast.makeText(this, ""+config.smallestScreenWidthDp, Toast.LENGTH_SHORT).show();
         if(config.smallestScreenWidthDp>=800)
             bm = Bitmap.createScaledBitmap(bm, 400, 240, true);
         else if(config.smallestScreenWidthDp>=600)
@@ -436,7 +454,8 @@ public class PlaceAddRequest extends AppCompatActivity{
         else
             bm = Bitmap.createScaledBitmap(bm, 160, 96, true);
         return bm;
-    }
+    }*/
+
     //이미지 BLOB형식 저장위해 str로 변경하고 디비로 보냄
     public void BitMapToString(Bitmap bitmap) {
         String ii=" ";

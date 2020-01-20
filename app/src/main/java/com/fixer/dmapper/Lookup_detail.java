@@ -229,4 +229,9 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
 }

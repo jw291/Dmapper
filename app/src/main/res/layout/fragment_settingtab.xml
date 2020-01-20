@@ -19,7 +19,7 @@
             app:cardUseCompatPadding="true">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -29,7 +29,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="#808080"
                     android:textSize="18dp"
-                    android:text="공지사항"/>
+                    android:text="공지사항 및 약관"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -38,44 +38,10 @@
                         android:id="@+id/list_notice"
                         android:layout_marginLeft="5dp"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp">
+                        android:layout_height="260dp">
 
                     </ListView>
                 </RelativeLayout>
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/seemore_notice"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true">
-
-                    <TextView
-                        android:id="@+id/notice_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:text="더 보기"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/notice_imageView"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/notice_imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>
 
