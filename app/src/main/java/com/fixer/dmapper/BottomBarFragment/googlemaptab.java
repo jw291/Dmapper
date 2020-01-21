@@ -1,6 +1,7 @@
 package com.fixer.dmapper.BottomBarFragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -30,21 +31,28 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
-import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.IOException;
 import java.util.List;
 
 public class googlemaptab extends Fragment implements OnMapReadyCallback {
+
+    Button autocomplete;
+
     GetGpsCoordinates getGpsCoordinates;
-    PlaceAutocompleteFragment autocompleteFragment;
+    PlacesFieldSelector fieldSelector;
+    //PlaceAutocompleteFragment autocompleteFragment;
     MapView mapview;
     ImageView mylocationbutton;
     Button kakaobutton;
     public GoogleMap gMap;
     public LatLng SEOUL;
+    public static LatLng selectLatLng;
     private LatLng CenterLocation = new LatLng(0,0);
     private Marker markerCenter;
     public static View view;
@@ -54,6 +62,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     public static String place_name_query_result="";//결과를 통해 얻어낸 Place_name
     public static String address_name_query_result="";//결과를 통해 얻어낸 addressname
 
+    public int ERRORCOMPLETECODE = 1;
     public static googlemaptab newInstance() {
         return new googlemaptab();
     }
@@ -75,20 +84,12 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
          * kakaotab을 다녀왔을때 검색이 한번에 되지 않는 문제가 있다(다른 fragment다녀올땐 한번에 됌)
          * 두번 해야 검색이 되지만 critical하지는 않다. 그러므로 일단 다른 기능부터 구현하자
          */
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null) {
-                parent.removeView(view);
-            }
-        }
-        try {
-            view = inflater.inflate(R.layout.fragment_googlemaptab, container, false);
-        } catch (InflateException e) {
-
-        }
-        
+        view = inflater.inflate(R.layout.fragment_googlemaptab, container, false);
         init_bindView();
-        setupAutoCompleteFragment(this);
+
+        if(!Places.isInitialized()){
+            Places.initialize(getContext(),"AIzaSyDpyMtxpR8DVoHxLX6D0QR4tlQiGSP4gEA");
+        }
         return view;
     }
 
@@ -110,9 +111,43 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
                 getMyLocation();
             }
         });
+        autocomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent autocompleteIntent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldSelector.getAllFields())
+                        .build(getActivity());
+                startActivityForResult(autocompleteIntent, 10);
+                ERRORCOMPLETECODE = 0;
+            }
+        });
+
+        mapview.getMapAsync(this);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        if (resultCode == AutocompleteActivity.RESULT_OK) {
+
+            MainActivity.Map_foreground_selector_kakao= false;
+            Place place = Autocomplete.getPlaceFromIntent(intent);
+            selectLatLng = place.getLatLng();
+            place_name_query_result = place.getName().toString();
+            address_name_query_result = place.getAddress().toString();
+
+            mapview.getMapAsync(this);
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(intent);
+        } else if (resultCode == AutocompleteActivity.RESULT_CANCELED) {
+            // The user canceled the operation.
+        }
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     public void init_bindView(){
+        autocomplete = (Button)view.findViewById(R.id.autocomplete_button);
+        mapview = (MapView) view.findViewById(R.id.google_map_view);
+        fieldSelector = new PlacesFieldSelector();
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.hide();
 
@@ -121,12 +156,10 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         getGpsCoordinates = new GetGpsCoordinates(getContext());
 
         MainActivity.Map_foreground_selector_google = true;
-
         SEOUL = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
+
         mylocationbutton = (ImageView) view.findViewById(R.id.mylocationbutton);
         kakaobutton = (Button) view.findViewById(R.id.kakaobutton);
-        mapview = (MapView) view.findViewById(R.id.google_map_view);
-        mapview.getMapAsync(this);
     }
 
     @Override
@@ -138,7 +171,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        mapview.onResume();
+        //mapview.onResume();
     }
 
     @Override
@@ -150,33 +183,6 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-    //검색 시에 호출되는 method
-    private void setupAutoCompleteFragment(final OnMapReadyCallback instance) {
-        if(autocompleteFragment == null) {
-            //원래 destroy에서 remove해줬는데 이렇게 처리하는게 더 확실
-            autocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        }else{
-            MainActivity.Map_foreground_selector_kakao= false;
-        }
-        autocompleteFragment.setHint("장소를 입력하세요");
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                SEOUL = place.getLatLng();
-                place_name_query_result = place.getName().toString();
-                address_name_query_result = place.getAddress().toString();
-                mapview.getMapAsync(instance);
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.e("Error", status.getStatusMessage());
-            }
-        });
-    }
-
     //getMapAsync호출시 호출되는 method
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -184,17 +190,29 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
         Log.i("omMapReady호출","onMapReady호출"+SEOUL);
 
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL,20.0f));
-        gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-        setMarkerCenter();
-        getCenterLocation();
-        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                //Toast.makeText(getActivity(), "가운데"+CenterLocation.latitude, Toast.LENGTH_SHORT).show();
-                return false;
+        if(SEOUL == null){
+            Toast.makeText(getActivity(), "위치 정보가 들어오지 않음", Toast.LENGTH_SHORT).show();
+        }else {
+
+            if(ERRORCOMPLETECODE == 1) {
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 20.0f));
+                gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+                setMarkerCenter();
+                getCenterLocation();
+                gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        //Toast.makeText(getActivity(), "가운데"+CenterLocation.latitude, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });ERRORCOMPLETECODE = 0;
+            }else{
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectLatLng, 20.0f));
+                gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+                setMarkerCenter();
+                getCenterLocation();
             }
-        });
+        }
     }
     //mylocation으로 이동하는 method
     private void getMyLocation() {
