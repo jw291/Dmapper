@@ -207,7 +207,6 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     private void init_BindValue(){
 
-        //Toast.makeText(getApplicationContext(), ""+MainActivity.Map_foreground_selector_kakao, Toast.LENGTH_SHORT).show();
 
             if (MainActivity.Map_foreground_selector_kakao == true || MainActivity.Map_foreground_selector_google == false) {
                 if(kakaomaptab.place_name_query_result.equals("") && kakaomaptab.address_name_query_result.equals("")){
@@ -222,7 +221,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
                     }
                 }
             } else if (MainActivity.Map_foreground_selector_google == true || MainActivity.Map_foreground_selector_kakao == false) {
-                if(kakaomaptab.place_name_query_result.equals("") && kakaomaptab.address_name_query_result.equals("")){
+                if(googlemaptab.place_name_query_result.equals("") && googlemaptab.address_name_query_result.equals("")){
                     place_name_et.setText("검색하여 수정할 장소를 선택해주세요");
                     address_name_et.setText("검색하여 수정할 장소를 선택해주세요");
                 }else {

@@ -27,9 +27,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
-import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +35,7 @@ import java.util.List;
 public class GoogleAddressReSelect extends AppCompatActivity implements OnMapReadyCallback {
 
     GetGpsCoordinates getGpsCoordinates;
-    PlaceAutocompleteFragment autocompleteFragment;
+    //PlaceAutocompleteFragment autocompleteFragment;
     SupportMapFragment mapFragment;
     ImageView mylocationbutton;
     Button reload_button;
@@ -75,7 +73,7 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
                 getMyLocation();
             }
         });
-        setupAutoCompleteFragment(this);
+        //setupAutoCompleteFragment(this);
     }
 
     @Override
@@ -158,6 +156,7 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
             }
         }
     }
+    /*
     //검색 시에 호출되는 method
     private void setupAutoCompleteFragment(final OnMapReadyCallback instance) {
         if(autocompleteFragment == null) {
@@ -178,5 +177,5 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
             }
         });
     }
-
+*/
 }

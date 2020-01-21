@@ -16,11 +16,12 @@
         android:id="@+id/RelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <!--
         <fragment
             android:id="@+id/place_autocomplete_fragment"
             android:name="com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
         <ImageView
             android:layout_below="@+id/place_autocomplete_fragment"
             android:layout_alignParentRight="true"
@@ -39,6 +40,6 @@
             android:textColor="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#6F48B6"/>
+            android:background="#829FD9"/>
     </RelativeLayout>
 </FrameLayout>

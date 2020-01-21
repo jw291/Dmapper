@@ -8,6 +8,8 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
@@ -68,6 +70,7 @@ public class App extends Application {
         super.onCreate();
         KakaoSDK.init(new KakaoSDKAdapter());
         Log.e("Key Hash : ", getKeyHash(this));
+
     }
 
     public String getKeyHash(final Context context) {
