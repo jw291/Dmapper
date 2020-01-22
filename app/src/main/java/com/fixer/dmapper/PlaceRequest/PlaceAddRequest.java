@@ -3,13 +3,14 @@ package com.fixer.dmapper.PlaceRequest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -17,7 +18,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
@@ -30,6 +30,7 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -40,18 +41,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 import com.fixer.dmapper.BottomBarFragment.RequestHttpURLConnection;
 import com.fixer.dmapper.BottomBarFragment.googlemaptab;
 import com.fixer.dmapper.BottomBarFragment.kakaomaptab;
+import com.fixer.dmapper.ImageViewPager.ImageViewPager;
+import com.fixer.dmapper.ImageViewPager.ImageViewPagerAdapter;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
 import org.w3c.dom.Text;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -84,10 +87,6 @@ import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class PlaceAddRequest extends AppCompatActivity{
-
-    //위도 경도 땜시
-    final Geocoder geocoder = new Geocoder(this);
-    List<Address> list_a = null;
 
     //소켓 관련 변수
     Socket socket;
@@ -137,8 +136,10 @@ public class PlaceAddRequest extends AppCompatActivity{
     String user_name;
     String place_type = "1"; //추가는 1
 
-    double latitude, longitude;
-    String latitude_st, longitude_st;
+    double latitude = 0.0;
+    double longitude = 0.0;
+    String latitude_st = " ";
+    String longitude_st= " ";
 
     boolean map_platform_check_status = false;
 
@@ -213,16 +214,25 @@ public class PlaceAddRequest extends AppCompatActivity{
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int i;
                 if(place_name_et.getText().toString().trim().length() > 0 && address_name_et.getText().toString().trim().length() > 0 && (google_map_check.isChecked() || kakao_map_check.isChecked())){
-                    Toast.makeText(PlaceAddRequest.this, "완료", Toast.LENGTH_SHORT).show();
-                    //이미지는 php로 디비로
-                    BitMapToString(bm);
-                    //추가 정보 소켓서버로
-                    socketHandler = new Handler();
-                    ConnectThread th = new ConnectThread();
-                    th.start();
-
-                    finish(); //액티비티 닫음
+                    for(i=0; i<MainActivity.arrayLoc.size(); i++){
+                        if(MainActivity.arrayLoc.get(i).getPlace_name().equals(place_name_et.getText().toString())) {
+                            Toast.makeText(PlaceAddRequest.this, "동일한 장소가 있습니다.", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+                    if(i== MainActivity.arrayLoc.size()) {
+                        Log.d("zz", String.valueOf(i));
+                        Toast.makeText(PlaceAddRequest.this, "완료", Toast.LENGTH_SHORT).show();
+                        //이미지는 php로 디비로
+                        BitMapToString(bm);
+                        //추가 정보 소켓서버로
+                        socketHandler = new Handler();
+                        ConnectThread th = new ConnectThread();
+                        th.start();
+                        finish(); //액티비티 닫음
+                    }
                 }else{
                     Toast.makeText(PlaceAddRequest.this, "필수정보를 모두 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -246,6 +256,7 @@ public class PlaceAddRequest extends AppCompatActivity{
 
                 Log.i("@@", "pl" + place_name_st + "ad" + address_name_st + "ca" + category_name_st + "et" + etcinfo_st +
                         "ka" + kakao_bool + "go" + google_bool + "en" + entrance_bool + "se" + seat_bool + "pa" + parking_bool + "re" + restroom_bool + "el" + elevator_bool);
+
 
                 //데이터 전송
                 PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
@@ -381,21 +392,12 @@ public class PlaceAddRequest extends AppCompatActivity{
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-        try {
-            list_a = geocoder.getFromLocationName(
-                    address_name_st, // 지역 이름
-                    10); // 읽을 개수
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (list_a != null) {
-            // 해당되는 주소로 인텐트 날리기
-            Address addr = list_a.get(0);
-            latitude = addr.getLatitude();
-            longitude = addr.getLongitude();
-            latitude_st = String.valueOf(latitude);
-            longitude_st = String.valueOf(longitude);
-        }
+
+        //소켓 값 보내야해서 latitude_st랑 longitude_st 변수에 값 채워주삼
+        //latitude;
+        //longitude ;
+        latitude_st = String.valueOf(latitude);
+        longitude_st = String.valueOf(longitude);
 
     }
 
@@ -412,8 +414,9 @@ public class PlaceAddRequest extends AppCompatActivity{
             if (resultCode == RESULT_OK) {
                 try {
                     bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    System.out.println();
                     //bm = resize(bm);
+                    //image_View.setImageBitmap(bm);
+                    System.out.println();
                     Glide.with(this)
                             .asBitmap()
                             .load(bm)
@@ -438,11 +441,10 @@ public class PlaceAddRequest extends AppCompatActivity{
             }
         }
     }
-    /*
     //Bitmap 줄이기 그래야 넘어감
+    /*
     private Bitmap resize(Bitmap bm){
         Configuration config=getResources().getConfiguration();
-        Toast.makeText(this, ""+config.smallestScreenWidthDp, Toast.LENGTH_SHORT).show();
         if(config.smallestScreenWidthDp>=800)
             bm = Bitmap.createScaledBitmap(bm, 400, 240, true);
         else if(config.smallestScreenWidthDp>=600)
@@ -455,6 +457,7 @@ public class PlaceAddRequest extends AppCompatActivity{
             bm = Bitmap.createScaledBitmap(bm, 160, 96, true);
         return bm;
     }*/
+
 
     //이미지 BLOB형식 저장위해 str로 변경하고 디비로 보냄
     public void BitMapToString(Bitmap bitmap) {

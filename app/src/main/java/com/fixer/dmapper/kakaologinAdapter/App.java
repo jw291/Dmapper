@@ -70,7 +70,6 @@ public class App extends Application {
         super.onCreate();
         KakaoSDK.init(new KakaoSDKAdapter());
         Log.e("Key Hash : ", getKeyHash(this));
-
     }
 
     public String getKeyHash(final Context context) {

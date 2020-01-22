@@ -82,6 +82,7 @@ public class settingtab extends Fragment {
         onListItemButtonClick();
 
 
+
         myrequest_seemorebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,7 +124,6 @@ public class settingtab extends Fragment {
     }
 
     public void init_variable() {
-
 
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.show();

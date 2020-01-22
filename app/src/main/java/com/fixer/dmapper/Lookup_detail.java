@@ -228,10 +228,10 @@ public class Lookup_detail extends AppCompatActivity implements OnMapReadyCallba
             register_google_tv.setText("구글");
         }
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         finish();
     }
+
 }

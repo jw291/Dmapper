@@ -23,7 +23,24 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="6dp" />
 
-
+        <ImageView
+            android:id="@+id/event_iv1"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="#ffffff"/>
+        <ImageView
+            android:id="@+id/event_iv2"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="#ffffff"/>
+        <ImageView
+            android:id="@+id/event_iv3"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="#ffffff"/>
 
     </LinearLayout>
 

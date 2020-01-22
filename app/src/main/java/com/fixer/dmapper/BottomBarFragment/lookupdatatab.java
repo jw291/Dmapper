@@ -262,11 +262,10 @@ public class lookupdatatab extends Fragment {
         switch(item.getItemId())
         {
             case R.id.category1:
-                lookupDataAdapter.filter(""); // 전체보기
+                lookupDataAdapter.filter("");
                 break;
             case R.id.category2:
                 lookupDataAdapter.filter(item.getTitle().toString());
-                Toast.makeText(getActivity(), ""+item.getTitle().toString(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.category3:
                 lookupDataAdapter.filter(item.getTitle().toString());

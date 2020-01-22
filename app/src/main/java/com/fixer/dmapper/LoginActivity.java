@@ -120,15 +120,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             ProgressDialog asyncDialog = new ProgressDialog(this);
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             asyncDialog.setMessage("로그인 중 입니다..");
-
             // show dialog
             asyncDialog.show();
+
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 // Name, email address, and profile photo Url
                 user_name = user.getDisplayName();
                 user_email = user.getEmail();
                 user_id = user.getUid();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                infoPutextra(intent,user_name,user_email,user_id);
             } else {
                 requestMe();
             }
@@ -342,7 +344,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 user_name = userProfile.getNickname();
                 user_id = String.valueOf(userProfile.getId());
-                user_email = null;
+                user_email = userProfile.getEmail();
                 infoPutextra(intent,user_name,user_email,user_id);
             }
 
