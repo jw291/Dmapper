@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         M_user_name = getIntent().getStringExtra("myname");
         M_user_email = getIntent().getStringExtra("myemail");
 
+        //Toast.makeText(this, "id"+M_user_id+"name"+M_user_name+"email"+M_user_email, Toast.LENGTH_SHORT).show();
         String temp = "&id="+M_user_id+"&name=" +M_user_name+"&email="+M_user_email;
         InsertUser iu = new InsertUser(temp);
         iu.start();

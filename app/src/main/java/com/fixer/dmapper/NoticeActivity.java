@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NoticeActivity extends AppCompatActivity {
 
     TextView notice_tv;
+    ImageView event_iv1;
+    ImageView event_iv2;
+    ImageView event_iv3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +20,9 @@ public class NoticeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notice);
 
         notice_tv = (TextView)findViewById(R.id.notice_tv);
+        event_iv1 = (ImageView)findViewById(R.id.event_iv1);
+        event_iv2 = (ImageView)findViewById(R.id.event_iv2);
+        event_iv3 = (ImageView)findViewById(R.id.event_iv3);
 
         Intent intent = getIntent();
         String title =  intent.getStringExtra("title");
@@ -180,14 +187,16 @@ public class NoticeActivity extends AppCompatActivity {
                     "\n" +
                     "[이벤트 기간]\n" +
                     "<1차>\n" +
-                    "1월 2일~1월 22일\n" +
+                    "1월 22일~1월 28일\n" +
                     "<2차>\n" +
-                    "1월 23일~ 1월 29일\n" +
+                    "1월 29일~ 2월 4일\n" +
                     "<3차>\n" +
-                    "1월 30일~ 2월 5일");
+                    "2월 5일~ 2월 11일");
+            event_iv1.setImageResource(R.drawable.event1);
+            event_iv2.setImageResource(R.drawable.event2);
+            event_iv3.setImageResource(R.drawable.event3);
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

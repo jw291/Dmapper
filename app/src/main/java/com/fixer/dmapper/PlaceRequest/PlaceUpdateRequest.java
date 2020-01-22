@@ -41,11 +41,6 @@ import java.util.List;
 
 public class PlaceUpdateRequest extends AppCompatActivity {
 
-    //위도 경도 땜시
-    final Geocoder geocoder = new Geocoder(this);
-    List<Address> list_a;
-
-
     //소켓 관련 변수
     Socket socket;
     private String ip = "54.180.106.121"; // IP 주소
@@ -78,8 +73,10 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     String place_type = "2";// 수정은 2
 
-    double latitude, longitude;
-    String latitude_st, longitude_st;
+    double latitude = 0.0;
+    double longitude = 0.0;
+    String latitude_st = " ";
+    String longitude_st= " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,6 +204,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     private void init_BindValue(){
 
+        //Toast.makeText(getApplicationContext(), ""+MainActivity.Map_foreground_selector_kakao, Toast.LENGTH_SHORT).show();
 
             if (MainActivity.Map_foreground_selector_kakao == true || MainActivity.Map_foreground_selector_google == false) {
                 if(kakaomaptab.place_name_query_result.equals("") && kakaomaptab.address_name_query_result.equals("")){
@@ -283,24 +281,11 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-        try {
-            list_a = geocoder.getFromLocationName(
-                    address_name_st, // 지역 이름
-                    10); // 읽을 개수
-                    Log.d("list_a",list_a.toString());
-
-            list_a = geocoder.getFromLocationName(address_name_st, 10); // 읽을 개수
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (list_a!= null) {
-            // 해당되는 주소로 인텐트 날리기
-            Address addr = list_a.get(0);
-            latitude = addr.getLatitude();
-            longitude = addr.getLongitude();
-            latitude_st = String.valueOf(latitude);
-            longitude_st = String.valueOf(longitude);
-        }
+        //소켓 값 보내야해서 latitude_st랑 longitude_st 변수에 값 채워주삼
+        //latitude;
+        //longitude ;
+        latitude_st = String.valueOf(latitude);
+        longitude_st = String.valueOf(longitude);
     }
 
     private void onClickBox(){
