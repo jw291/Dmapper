@@ -11,8 +11,6 @@ import android.support.annotation.NonNull;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -136,8 +134,8 @@ public class PlaceAddRequest extends AppCompatActivity{
     String user_name;
     String place_type = "1"; //추가는 1
 
-    double latitude = 0.0;
-    double longitude = 0.0;
+    public double latitude = 0.0;
+    public double longitude = 0.0;
     String latitude_st = " ";
     String longitude_st= " ";
 
@@ -281,7 +279,7 @@ public class PlaceAddRequest extends AppCompatActivity{
 
     public void init_spinner_list(){
         arrayList = new ArrayList<>();
-        arrayList.add("장애인용 공용 화장실");
+        arrayList.add("장애인용 화장실");
         arrayList.add("숙박업소");
         arrayList.add("보건소");
         arrayList.add("음식점");
@@ -392,12 +390,11 @@ public class PlaceAddRequest extends AppCompatActivity{
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-
-        //소켓 값 보내야해서 latitude_st랑 longitude_st 변수에 값 채워주삼
-        //latitude;
-        //longitude ;
+        latitude = LatLngCarrier.latitude;
+        longitude = LatLngCarrier.longitude;
         latitude_st = String.valueOf(latitude);
         longitude_st = String.valueOf(longitude);
+        Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
 
     }
 

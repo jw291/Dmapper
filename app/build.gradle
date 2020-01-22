@@ -10,10 +10,10 @@ android {
 
     signingConfigs {
         release {
-            keyPassword 'fi12xer34!'
-            storePassword 'fi12xer34!'
-            keyAlias = 'key0'
-            storeFile file('C:\\Users\\susu\\Downloads\\ff.jks')
+            keyPassword 'digh1221'
+            storePassword 'digh1221'
+            keyAlias = 'release_key'
+            storeFile file('/Users/jaewonna/release_key.keystore')
         }
     }
     compileSdkVersion 28

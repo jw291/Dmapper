@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
+
 import android.location.Geocoder;
 import android.os.Handler;
 import android.support.design.widget.TextInputEditText;
@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 
+import com.fixer.dmapper.LoginActivity;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
 
@@ -40,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceUpdateRequest extends AppCompatActivity {
+
+
 
     //소켓 관련 변수
     Socket socket;
@@ -73,10 +76,10 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     String place_type = "2";// 수정은 2
 
-    double latitude = 0.0;
-    double longitude = 0.0;
-    String latitude_st = " ";
-    String longitude_st= " ";
+
+    public double latitude = 0.0;
+    public double longitude = 0.0;
+    String latitude_st, longitude_st;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +207,6 @@ public class PlaceUpdateRequest extends AppCompatActivity {
 
     private void init_BindValue(){
 
-        //Toast.makeText(getApplicationContext(), ""+MainActivity.Map_foreground_selector_kakao, Toast.LENGTH_SHORT).show();
 
             if (MainActivity.Map_foreground_selector_kakao == true || MainActivity.Map_foreground_selector_google == false) {
                 if(kakaomaptab.place_name_query_result.equals("") && kakaomaptab.address_name_query_result.equals("")){
@@ -239,6 +241,17 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         parking_check.setChecked(false);
         restroom_check.setChecked(false);
         elevator_check.setChecked(false);
+
+
+        latitude = LatLngCarrier.latitude;
+        longitude = LatLngCarrier.longitude;
+        latitude_st = String.valueOf(latitude);
+        longitude_st = String.valueOf(longitude);
+
+        System.out.println("@@@"+latitude_st);
+
+        //Log.i("position2","latitude"+latitude_st+" longitude"+longitude_st);
+        Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
     }
     private void getValue(){
 
@@ -281,11 +294,6 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         if (elevator_check.isChecked()) elevator_bool = true;
         else elevator_bool = false;
 
-        //소켓 값 보내야해서 latitude_st랑 longitude_st 변수에 값 채워주삼
-        //latitude;
-        //longitude ;
-        latitude_st = String.valueOf(latitude);
-        longitude_st = String.valueOf(longitude);
     }
 
     private void onClickBox(){

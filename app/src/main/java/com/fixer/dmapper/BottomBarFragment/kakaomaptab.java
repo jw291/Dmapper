@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fixer.dmapper.GetGpsCoordinates.GetGpsCoordinates;
 import com.fixer.dmapper.KakaoGeoCodingManager.KakaoContainer;
@@ -28,6 +29,9 @@ import com.fixer.dmapper.KakaoGeoCodingManager.MapApiConst;
 import com.fixer.dmapper.KakaoGeoCodingManager.OnFinishSearchListener;
 import com.fixer.dmapper.KakaoGeoCodingManager.Searcher;
 import com.fixer.dmapper.MainActivity;
+import com.fixer.dmapper.PlaceRequest.LatLngCarrier;
+import com.fixer.dmapper.PlaceRequest.PlaceAddRequest;
+import com.fixer.dmapper.PlaceRequest.PlaceUpdateRequest;
 import com.fixer.dmapper.R;
 
 import net.daum.mf.map.api.MapPOIItem;
@@ -275,6 +279,7 @@ public class kakaomaptab extends Fragment implements MapView.MapViewEventListene
                     //double latitude = geoCoordinate.latitude; // 위도
                     //double longitude = geoCoordinate.longitude; // 경도
                     String apikey = MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY;
+                    //Toast.makeText(getActivity(), "latitude : "+latitude + "longitude : "+longitude , Toast.LENGTH_SHORT).show();
                     Searcher searcher = new Searcher(); // Searcher
                     searcher.searchKeyword(query,radius, page, apikey, new OnFinishSearchListener() {
                         @Override
@@ -300,6 +305,9 @@ public class kakaomaptab extends Fragment implements MapView.MapViewEventListene
                 imm.hideSoftInputFromWindow(editText.getWindowToken(),0);
                 startAnimationdown();
                 onPlaceSelected(products.get(pos).gety(),products.get(pos).getx());
+                //System.out.println("name : " + products.get(pos).getPlace_name() + "latitude : " + products.get(pos).gety() + "longitude : " + products.get(pos).getx());
+                LatLngCarrier.latitude = products.get(pos).gety();
+                LatLngCarrier.longitude = products.get(pos).getx();
                 onGetinfo(products.get(pos).getPlace_name(),products.get(pos).getPlace_address());
             }
         });
@@ -345,6 +353,8 @@ public class kakaomaptab extends Fragment implements MapView.MapViewEventListene
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapCenterPoint) {
         MapPoint.GeoCoordinate mapPointGeo = mapCenterPoint.getMapPointGeoCoord();
         setMarkerCenter(mapview,mapPointGeo.latitude,mapPointGeo.longitude);
+        LatLngCarrier.latitude= mapPointGeo.latitude;
+        LatLngCarrier.longitude = mapPointGeo.longitude;
         Log.i("gg", String.format("MapView onMapViewCenterPointMoved (%f,%f)", mapPointGeo.latitude, mapPointGeo.longitude));
     }
 

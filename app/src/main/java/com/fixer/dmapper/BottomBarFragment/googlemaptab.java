@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.fixer.dmapper.GetGpsCoordinates.GetGpsCoordinates;
 import com.fixer.dmapper.MainActivity;
+import com.fixer.dmapper.PlaceRequest.LatLngCarrier;
+import com.fixer.dmapper.PlaceRequest.PlaceAddRequest;
+import com.fixer.dmapper.PlaceRequest.PlaceUpdateRequest;
 import com.fixer.dmapper.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,17 +56,16 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     public GoogleMap gMap;
     public LatLng SEOUL;
     public static LatLng selectLatLng;
-    private LatLng CenterLocation = new LatLng(0, 0);
+    private LatLng CenterLocation = new LatLng(0,0);
     private Marker markerCenter;
     public static View view;
 
     public static String ReverseGeoCodeValue;//핀 위치에서 얻어낸 addressname
 
-    public static String place_name_query_result = "";//결과를 통해 얻어낸 Place_name
-    public static String address_name_query_result = "";//결과를 통해 얻어낸 addressname
+    public static String place_name_query_result="";//결과를 통해 얻어낸 Place_name
+    public static String address_name_query_result="";//결과를 통해 얻어낸 addressname
 
-    public static int ERRORCOMPLETECODE;
-
+    public int ERRORCOMPLETECODE = 1;
     public static googlemaptab newInstance() {
         return new googlemaptab();
     }
@@ -88,9 +90,8 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.fragment_googlemaptab, container, false);
         init_bindView();
 
-        ERRORCOMPLETECODE =1;
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), "AIzaSyDpyMtxpR8DVoHxLX6D0QR4tlQiGSP4gEA");
+        if(!Places.isInitialized()){
+            Places.initialize(getContext(),"AIzaSyDpyMtxpR8DVoHxLX6D0QR4tlQiGSP4gEA");
         }
         return view;
     }
@@ -131,12 +132,11 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         if (resultCode == AutocompleteActivity.RESULT_OK) {
 
-            MainActivity.Map_foreground_selector_kakao = false;
+            MainActivity.Map_foreground_selector_kakao= false;
             Place place = Autocomplete.getPlaceFromIntent(intent);
             selectLatLng = place.getLatLng();
             place_name_query_result = place.getName().toString();
             address_name_query_result = place.getAddress().toString();
-
             mapview.getMapAsync(this);
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             Status status = Autocomplete.getStatusFromIntent(intent);
@@ -146,11 +146,11 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
-    public void init_bindView() {
-        autocomplete = (Button) view.findViewById(R.id.autocomplete_button);
+    public void init_bindView(){
+        autocomplete = (Button)view.findViewById(R.id.autocomplete_button);
         mapview = (MapView) view.findViewById(R.id.google_map_view);
         fieldSelector = new PlacesFieldSelector();
-        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.hide();
 
         ((MainActivity) getActivity()).StartAnimationvisible();
@@ -162,6 +162,10 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
         mylocationbutton = (ImageView) view.findViewById(R.id.mylocationbutton);
         kakaobutton = (Button) view.findViewById(R.id.kakaobutton);
+
+        Toast.makeText(getActivity(), "실행"+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
+
+        ERRORCOMPLETECODE = 1;
     }
 
     @Override
@@ -190,13 +194,14 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
 
-        Log.i("omMapReady호출", "onMapReady호출" + SEOUL);
+        Log.i("omMapReady호출","onMapReady호출"+SEOUL);
 
-        if (SEOUL == null) {
+        Toast.makeText(getActivity(), ""+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
+        if(SEOUL == null){
             Toast.makeText(getActivity(), "위치 정보가 들어오지 않음", Toast.LENGTH_SHORT).show();
-        } else {
+        }else {
 
-            if (ERRORCOMPLETECODE == 1) {
+            if(ERRORCOMPLETECODE == 1) {
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 20.0f));
                 gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
                 setMarkerCenter();
@@ -209,7 +214,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
                     }
                 });
                 ERRORCOMPLETECODE = 0;
-            } else {
+            }else{
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectLatLng, 20.0f));
                 gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
                 setMarkerCenter();
@@ -217,28 +222,26 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
     //mylocation으로 이동하는 method
     private void getMyLocation() {
         SEOUL = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 20));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL,20));
         gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
     }
 
-    private void getCenterLocation() {
+    private void getCenterLocation(){
         gMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
 
-                ((MainActivity) getActivity()).StartAnimationUp();
+                ((MainActivity)getActivity()).StartAnimationUp();
                 CenterLocation = cameraPosition.target;
-                getAddressname(markerCenter.getPosition().latitude, markerCenter.getPosition().longitude);
+                getAddressname(markerCenter.getPosition().latitude,markerCenter.getPosition().longitude);
             }
         });
     }
-
     //마커를 무조건 가운데에 놓는 method
-    public void setMarkerCenter() {
+    public void setMarkerCenter(){
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(gMap.getCameraPosition().target);
         markerCenter = gMap.addMarker(new MarkerOptions()
@@ -250,20 +253,23 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                ((MainActivity) getActivity()).StartAnimationInvisible();
+                ((MainActivity)getActivity()).StartAnimationInvisible();
                 markerCenter.setPosition(gMap.getCameraPosition().target);
-                Log.i("position", "latitude" + markerCenter.getPosition().latitude + " longitude" + markerCenter.getPosition().longitude);
+                Log.i("position","latitude"+markerCenter.getPosition().latitude+" longitude"+markerCenter.getPosition().longitude);
+
+                LatLngCarrier.latitude = markerCenter.getPosition().latitude;
+                LatLngCarrier.longitude = markerCenter.getPosition().longitude;
                 //핀을 가운데에 놓고 핀의 위치를 이용해서 위도 경도 뽑아옴 카카오맵이랑 다름.
             }
         });
     }
 
-    public void getAddressname(double latitude, double longitude) {
+    public void getAddressname(double latitude, double longitude){
         Geocoder gc = new Geocoder(getContext());
 
-        if (gc.isPresent()) {
+        if(gc.isPresent()){
             try {
-                List<Address> list = gc.getFromLocation(latitude, longitude, 10);
+                List<Address> list = gc.getFromLocation(latitude,longitude,10);
 
                 ReverseGeoCodeValue = list.get(0).getAddressLine(0);
 
@@ -274,7 +280,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
     }
 
 
-//PlaceAutocompleteFragment가 누적되는 오류 binary xml inflate exception 해결을 위해서 화면 나가면 제거함.
+    //PlaceAutocompleteFragment가 누적되는 오류 binary xml inflate exception 해결을 위해서 화면 나가면 제거함.
     /*
     @Override
     public void onDestroyView() {
