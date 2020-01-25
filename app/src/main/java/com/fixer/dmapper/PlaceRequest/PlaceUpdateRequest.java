@@ -77,9 +77,10 @@ public class PlaceUpdateRequest extends AppCompatActivity {
     String place_type = "2";// 수정은 2
 
 
-    public double latitude = 0.0;
-    public double longitude = 0.0;
-    String latitude_st, longitude_st;
+    public double latitude;
+    public double longitude;
+    String latitude_st;
+    String longitude_st;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,7 +252,7 @@ public class PlaceUpdateRequest extends AppCompatActivity {
         System.out.println("@@@"+latitude_st);
 
         //Log.i("position2","latitude"+latitude_st+" longitude"+longitude_st);
-        Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
     }
     private void getValue(){
 
