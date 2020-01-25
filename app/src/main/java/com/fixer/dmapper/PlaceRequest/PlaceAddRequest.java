@@ -134,10 +134,10 @@ public class PlaceAddRequest extends AppCompatActivity{
     String user_name;
     String place_type = "1"; //추가는 1
 
-    public double latitude = 0.0;
-    public double longitude = 0.0;
-    String latitude_st = " ";
-    String longitude_st= " ";
+    public double latitude;
+    public double longitude;
+    String latitude_st;
+    String longitude_st;
 
     boolean map_platform_check_status = false;
 
@@ -394,7 +394,7 @@ public class PlaceAddRequest extends AppCompatActivity{
         longitude = LatLngCarrier.longitude;
         latitude_st = String.valueOf(latitude);
         longitude_st = String.valueOf(longitude);
-        Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "latitude_st : "+latitude_st + "longitude_st : "+longitude_st, Toast.LENGTH_SHORT).show();
 
     }
 

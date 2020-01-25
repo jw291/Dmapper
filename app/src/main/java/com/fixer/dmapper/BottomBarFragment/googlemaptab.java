@@ -91,7 +91,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         init_bindView();
 
         if(!Places.isInitialized()){
-            Places.initialize(getContext(),"AIzaSyDpyMtxpR8DVoHxLX6D0QR4tlQiGSP4gEA");
+            Places.initialize(getContext(),getString(R.string.google_app_id));
         }
         return view;
     }
@@ -163,7 +163,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         mylocationbutton = (ImageView) view.findViewById(R.id.mylocationbutton);
         kakaobutton = (Button) view.findViewById(R.id.kakaobutton);
 
-        Toast.makeText(getActivity(), "실행"+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "실행"+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
 
         ERRORCOMPLETECODE = 1;
     }
@@ -196,7 +196,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
         Log.i("omMapReady호출","onMapReady호출"+SEOUL);
 
-        Toast.makeText(getActivity(), ""+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), ""+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
         if(SEOUL == null){
             Toast.makeText(getActivity(), "위치 정보가 들어오지 않음", Toast.LENGTH_SHORT).show();
         }else {
