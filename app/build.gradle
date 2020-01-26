@@ -10,10 +10,10 @@ android {
 
     signingConfigs {
         release {
-            keyPassword 'fi12xer34!'
-            storePassword 'fi12xer34!'
-            keyAlias = 'key0'
-            storeFile file('C:\\Users\\susu\\Downloads\\ff.jks')
+            keyPassword 'digh1221'
+            storePassword 'digh1221'
+            keyAlias = 'release_key'
+            storeFile file('/Users/jaewonna/release_key.keystore')
         }
     }
     compileSdkVersion 28
@@ -22,8 +22,8 @@ android {
         applicationId "com.fixer.dmapper"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.6" +
+        versionCode 10
+        versionName "1.7" +
                 ""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

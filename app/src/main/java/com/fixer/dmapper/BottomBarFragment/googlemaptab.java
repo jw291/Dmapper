@@ -91,7 +91,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         init_bindView();
 
         if(!Places.isInitialized()){
-            Places.initialize(getContext(),getString(R.string.google_app_id));
+            Places.initialize(getContext(),getString(R.string.google_app_key));
         }
         return view;
     }
@@ -159,13 +159,9 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
         MainActivity.Map_foreground_selector_google = true;
         SEOUL = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
-
         mylocationbutton = (ImageView) view.findViewById(R.id.mylocationbutton);
         kakaobutton = (Button) view.findViewById(R.id.kakaobutton);
 
-        //Toast.makeText(getActivity(), "실행"+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
-
-        ERRORCOMPLETECODE = 1;
     }
 
     @Override
@@ -196,14 +192,13 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
 
         Log.i("omMapReady호출","onMapReady호출"+SEOUL);
 
-        //Toast.makeText(getActivity(), ""+ERRORCOMPLETECODE, Toast.LENGTH_SHORT).show();
         if(SEOUL == null){
             Toast.makeText(getActivity(), "위치 정보가 들어오지 않음", Toast.LENGTH_SHORT).show();
         }else {
 
             if(ERRORCOMPLETECODE == 1) {
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 20.0f));
-                gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+                gMap.animateCamera(CameraUpdateFactory.zoomTo(20));
                 setMarkerCenter();
                 getCenterLocation();
                 gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -215,17 +210,25 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
                 });
                 ERRORCOMPLETECODE = 0;
             }else{
-                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectLatLng, 20.0f));
-                gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
-                setMarkerCenter();
-                getCenterLocation();
+                if(selectLatLng == null){
+                    LatLng mylocation = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mylocation, 20.0f));
+                    gMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+                    setMarkerCenter();
+                    getCenterLocation();
+                }else {
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectLatLng, 20.0f));
+                    gMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+                    setMarkerCenter();
+                    getCenterLocation();
+                }
             }
         }
     }
     //mylocation으로 이동하는 method
     private void getMyLocation() {
-        SEOUL = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL,20));
+        selectLatLng = new LatLng(getGpsCoordinates.getLatitude(), getGpsCoordinates.getLongitude());
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectLatLng,20));
         gMap.animateCamera(CameraUpdateFactory.zoomTo(17));
     }
 
@@ -271,14 +274,16 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
             try {
                 List<Address> list = gc.getFromLocation(latitude,longitude,10);
 
-                ReverseGeoCodeValue = list.get(0).getAddressLine(0);
-
+                if(list != null && list.size()!=0 ) {
+                    ReverseGeoCodeValue = list.get(0).getAddressLine(0);
+                }else{
+                    Toast.makeText(getActivity(), "핀을 이동시켜 위치를 지정하세요", Toast.LENGTH_SHORT).show();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
 
     //PlaceAutocompleteFragment가 누적되는 오류 binary xml inflate exception 해결을 위해서 화면 나가면 제거함.
     /*

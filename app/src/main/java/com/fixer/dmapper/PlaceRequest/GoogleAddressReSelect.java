@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.fixer.dmapper.BottomBarFragment.PlacesFieldSelector;
 import com.fixer.dmapper.GetGpsCoordinates.GetGpsCoordinates;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
@@ -27,6 +30,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 
 import java.io.IOException;
@@ -45,6 +52,8 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
     private Marker markerCenter;
     public String Reload_ReverseGeoCodeValue;//핀 위치에서 얻어낸 addressname
 
+    Button autocomplete;
+    PlacesFieldSelector fieldSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +82,31 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
                 getMyLocation();
             }
         });
+        autocomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent autocompleteIntent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldSelector.getAllFields())
+                        .build(GoogleAddressReSelect.this);
+                startActivityForResult(autocompleteIntent, 10);
+            }
+        });
         //setupAutoCompleteFragment(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        if (resultCode == AutocompleteActivity.RESULT_OK) {
+
+            MainActivity.Map_foreground_selector_kakao= false;
+            Place place = Autocomplete.getPlaceFromIntent(intent);
+            SEOUL = place.getLatLng();
+            mapFragment.getMapAsync(this);
+        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+            Status status = Autocomplete.getStatusFromIntent(intent);
+        } else if (resultCode == AutocompleteActivity.RESULT_CANCELED) {
+            // The user canceled the operation.
+        }
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     @Override
@@ -98,7 +131,8 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
         actionBar.show();
         actionBar.setTitle(Html.fromHtml("<font color='#746E66'>"+"주소 재설정"+"</font>"));
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
-
+        fieldSelector = new PlacesFieldSelector();
+        autocomplete = (Button)findViewById(R.id.autocomplete_button1);
         getGpsCoordinates = new GetGpsCoordinates(getApplicationContext());
         mylocationbutton = (ImageView) findViewById(R.id.mylocationbutton);
         reload_button = (Button) findViewById(R.id.address_reload);
@@ -148,14 +182,24 @@ public class GoogleAddressReSelect extends AppCompatActivity implements OnMapRea
         if(gc.isPresent()){
             try {
                 List<Address> list = gc.getFromLocation(latitude,longitude,10);
-
-                Reload_ReverseGeoCodeValue = list.get(0).getAddressLine(0);
+                if(list != null && list.size()!=0 ) {
+                    Reload_ReverseGeoCodeValue = list.get(0).getAddressLine(0);
+                }else{
+                    Toast.makeText(GoogleAddressReSelect.this, "핀을 이동시켜 위치를 지정하세요", Toast.LENGTH_SHORT).show();
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
     /*
     //검색 시에 호출되는 method
     private void setupAutoCompleteFragment(final OnMapReadyCallback instance) {
