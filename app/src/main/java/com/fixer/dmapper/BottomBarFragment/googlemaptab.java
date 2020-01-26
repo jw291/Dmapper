@@ -91,7 +91,7 @@ public class googlemaptab extends Fragment implements OnMapReadyCallback {
         init_bindView();
 
         if(!Places.isInitialized()){
-            Places.initialize(getContext(),getString(R.string.google_app_key));
+            Places.initialize(getContext(),getString(R.string.google_app_key));//보완성때문에 바꿈
         }
         return view;
     }
