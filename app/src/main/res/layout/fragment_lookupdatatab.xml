@@ -14,5 +14,12 @@
         android:layout_marginBottom="60dp"
         tools:ignore="MissingConstraints">
     </android.support.v7.widget.RecyclerView>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/place_recy"
+        tools:ignore="MissingConstraints"
+        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

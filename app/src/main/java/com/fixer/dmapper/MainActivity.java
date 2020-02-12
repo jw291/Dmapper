@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.fixer.dmapper.BottomBarFragment.LookupDataProducts;
 import com.fixer.dmapper.BottomBarFragment.RequestHttpURLConnection;
 import com.fixer.dmapper.BottomBarFragment.googlemaptab;
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<LookupDataProducts> arrayMyloc;
     public static ArrayList<LookupDataProducts> arrayLoc;
 
-
+    private static final String LOOKUP_URL="http://52.79.214.170/get_loc_db2.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,20 +98,21 @@ public class MainActivity extends AppCompatActivity {
         M_user_email = getIntent().getStringExtra("myemail");
 
         //Toast.makeText(this, "id"+M_user_id+"name"+M_user_name+"email"+M_user_email, Toast.LENGTH_SHORT).show();
-        String temp = "&id="+M_user_id+"&name=" +M_user_name+"&email="+M_user_email;
+        String temp = "&id=" + M_user_id + "&name=" + M_user_name + "&email=" + M_user_email;
         InsertUser iu = new InsertUser(temp);
         iu.start();
 
         //각 디비 불러오기 fragment필요한 디비들 다 main에서 부르는게 낫다 오류 오지게난다
-        NetworkTask_rank networkTask_rank = new NetworkTask_rank("http://54.180.106.121/get_rank.php", null);
+        NetworkTask_rank networkTask_rank = new NetworkTask_rank("http://52.79.214.170/get_rank.php", null);
         networkTask_rank.execute();
 
-        NetworkTask_myloc NetworkTask_myloc = new NetworkTask_myloc("http://54.180.106.121/get_loc_user.php?&user_id=" + M_user_id, null);
+        NetworkTask_myloc NetworkTask_myloc = new NetworkTask_myloc("http://52.79.214.170/get_loc_user.php?&user_id=" + M_user_id, null);
         NetworkTask_myloc.execute();
 
 
-        NetworkTask NetworTask = new NetworkTask("http://54.180.106.121/get_loc_db2.php", null);
-        NetworTask.execute();
+        LookupData_Connection_Volley();
+        //NetworkTask NetworTask = new NetworkTask("http://52.79.214.170/get_loc_db2.php", null);
+        // NetworTask.execute();
 
     }
 
@@ -190,6 +196,151 @@ public class MainActivity extends AppCompatActivity {
         linearLayout.setVisibility(View.VISIBLE);
         linearLayout.startAnimation(translate_up);
     }
+    public void LookupData_Connection_Volley() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, LOOKUP_URL
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray dataarray = new JSONArray(response);
+                    Bitmap getBlob;
+                    arrayLoc = new ArrayList<>();
+                    for (int i = 0; i < dataarray.length(); i++) {
+                        String place_name = "";
+                        String place_address = "";
+                        String place_img = "";
+                        String user_name = "";
+                        String upload_date = "";
+                        String phone = "-";
+                        String etc_info = "-";
+                        String category = " ";
+                        double latitude = 0.0;
+                        double longitude = 0.0;
+                        boolean kakao = false;
+                        boolean google = false;
+                        boolean entrance = false;
+                        boolean elevator = false;
+                        boolean parking_ = false;
+                        boolean toilet = false;
+                        boolean seat = false;
+
+                        JSONObject tt = dataarray.getJSONObject(i);
+                        place_name = tt.getString("name");
+                        place_address = tt.getString("address");
+                        //이미지 변환
+                        place_img = tt.getString("image");
+                        Log.d("imgStr", tt.getString("image"));
+                        byte[] encodeByte = Base64.decode(place_img, 0);
+                        Log.e("byte", encodeByte.toString());
+                        getBlob = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+
+                        user_name = tt.getString("userName");
+                        //날짜 시간 자름
+                        String upload_date_ = tt.getString("uploadDate");
+                        String[] upload_date_s = upload_date_.split(" ");
+                        upload_date = upload_date_s[0];
+
+                        int i_platform = tt.getInt("platform");
+                        //1이면 모두 2면 카카오만 3이면 구글만
+                        if (i_platform == 1) {
+                            google = true;
+                            kakao = true;
+                        } else if (i_platform == 2) {
+                            kakao = true;
+                        } else {
+                            google = true;
+                        }
+                        latitude = tt.getDouble("latitude");
+                        longitude = tt.getDouble("longitude");
+                        int i_category = tt.getInt("category");
+                        switch (i_category) {
+                            case 1:
+                                category = "장애인용 공용 화장실";
+                                break;
+                            case 2:
+                                category = "숙박업소";
+                                break;
+                            case 3:
+                                category = "보건소";
+                                break;
+                            case 4:
+                                category = "음식점";
+                                break;
+                            case 5:
+                                category = "주차장";
+                                break;
+                            case 6:
+                                category = "문화센터";
+                                break;
+                            case 7:
+                                category = "교육센터";
+                                break;
+                            case 8:
+                                category = "병원";
+                                break;
+                        }
+                        phone = tt.getString("phone");
+                        etc_info = tt.getString("etc_info");
+                        int i_entrance = tt.getInt("entrance");
+                        if (i_entrance == 1) {
+                            entrance = true;
+                        }
+                        int i_seat = tt.getInt("seat");
+                        if (i_seat == 1) {
+                            seat = true;
+                        }
+                        Log.d("hah", String.valueOf(parking_));
+                        int i_parking = tt.getInt("parking");
+                        if (i_parking == 1) {
+                            parking_ = true;
+                        }
+                        Log.d("hah2", String.valueOf(parking_));
+                        int i_toilet = tt.getInt("toilet");
+                        if (i_toilet == 1) {
+                            toilet = true;
+                        }
+                        int i_elevator = tt.getInt("elevator");
+                        if (i_elevator == 1) {
+                            elevator = true;
+                        }
+
+                        LookupDataProducts products = new LookupDataProducts();
+
+                        products.setImage(getBlob);
+                        products.setPlace_name(place_name);
+                        products.setPlace_address(place_address);
+                        products.setUser_name(user_name);
+                        products.setUpload_date(upload_date);
+                        products.setKakao(kakao);
+                        products.setGoogle(google);
+                        products.setLatitude(latitude);
+                        products.setLongitude(longitude);
+                        products.setEntrance(entrance);
+                        products.setSeat(seat);
+                        products.setParking(parking_);
+                        products.setToilet(toilet);
+                        products.setElevator(elevator);
+                        products.setCategory(category);
+                        products.setPhone(phone);
+                        products.setEct_info(etc_info);
+
+
+                        arrayLoc.add(products);
+                        //lookupDataAdapter.notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "음??", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Volley.newRequestQueue(MainActivity.this).add(stringRequest);
+    }
 
     //랭크 DB 가져와서 arrayRank에 넣음
     public class NetworkTask_rank extends AsyncTask<Void, Void, String> {
@@ -229,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
                         rank_name = tt.getString("name");
                         i++;
                         arrayRank.add(new settingtab.rank(i + "위", rank_name, ""));
-                        if(i==10)
+                        if (i == 10)
                             break;
                         //lookupDataAdapter.notifyDataSetChanged();
                     }
@@ -406,7 +557,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+}
+/*
     //전체 조회
     class NetworkTask extends AsyncTask<Void, Void, String> {
 
@@ -425,7 +577,6 @@ public class MainActivity extends AppCompatActivity {
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-
             return result;
         }
 
@@ -439,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void doJSONParser(String str) { //이것만 되면 된다. 해보자 시발 ㅜ ..
+    public void doJSONParser(String str) { //이것만 되면 된다. 해보자 시발 ㅜ ..
         try {
 
             if (str != null) {
@@ -577,9 +728,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("JSON", "showResult : ", e);
             }
         }
-
-
-    }
+*/
 
 
 

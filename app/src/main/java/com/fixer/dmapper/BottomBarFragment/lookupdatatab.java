@@ -4,17 +4,21 @@ package com.fixer.dmapper.BottomBarFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,13 +26,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.fixer.dmapper.Lookup_detail;
 import com.fixer.dmapper.MainActivity;
 import com.fixer.dmapper.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -139,6 +154,11 @@ public class lookupdatatab extends Fragment {
     RecyclerView recyclerView;
     LookupDataAdapter lookupDataAdapter;
 
+    public ProgressBar progressBar;
+
+    public static ArrayList<LookupDataProducts> arrayLocd;
+
+    private static final String LOOKUP_URL="http://52.79.214.170/get_loc_db2.php";
     public lookupdatatab() {
         // Required empty public constructor
     }
@@ -155,10 +175,27 @@ public class lookupdatatab extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onListItemButtonClick();
+
+        recyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                if (!recyclerView.canScrollVertically(-1)) {
+                    Log.i("^", "Top of list");
+                    progressBar.setVisibility(View.GONE);
+                } else if (!recyclerView.canScrollVertically(1)) {
+                    Log.i("^", "End of list");
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    Log.i("^", "idle");
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private  void init_variable(View view){
@@ -168,11 +205,13 @@ public class lookupdatatab extends Fragment {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#829FD9")));
         setHasOptionsMenu(true);
 
+        progressBar = view.findViewById(R.id.progress_bar);
         ((MainActivity)getActivity()).StartAnimationgone();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.place_recy);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         lookupDataAdapter = new LookupDataAdapter();
+        System.out.println("@#@#@#!"+MainActivity.arrayLoc);
         if(MainActivity.arrayLoc != null){
             lookupDataAdapter.setArrayList(MainActivity.arrayLoc,getContext());
         }

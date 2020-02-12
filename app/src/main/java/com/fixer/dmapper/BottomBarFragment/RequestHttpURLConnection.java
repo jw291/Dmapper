@@ -1,6 +1,7 @@
 package com.fixer.dmapper.BottomBarFragment;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,7 +59,6 @@ public class RequestHttpURLConnection {
             urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
             urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
             urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8");
-
             // [2-2]. parameter 전달 및 데이터 읽어오기.
             String strParams = sbParams.toString(); //sbParams에 정리한 파라미터들을 스트링으로 저장. 예)id=id1&pw=page1;
             OutputStream os = urlConn.getOutputStream();
@@ -79,13 +79,13 @@ public class RequestHttpURLConnection {
             String line;
             String page = "";
 
+            System.out.println("what"+page+reader.readLine());
             // 라인을 받아와 합친다.
             while ((line = reader.readLine()) != null){
                 page += line;
             }
 
             return page;
-
         } catch (MalformedURLException e) { // for URL.
             e.printStackTrace();
         } catch (IOException e) { // for openConnection().
