@@ -4,9 +4,7 @@
 김수진 : IOS Client 개발 및 서버 개발
 민재은 : 편의시설 크롤링, 데이터 수집
 
-# 증강현실 디펜스 게임 : 집지키는 개 
-Individual project for SoftwareDesign <br />
-- email address : jw_29@naver.com.com <br />
+- email address : jw_29@naver.com <br />
 - Demo Video : https://www.youtube.com/watch?v=CA-HFAbqRoM <br />
 
 ## Introduction
